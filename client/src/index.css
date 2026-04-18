@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Poppins', sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -43,39 +46,40 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  /* Playful & Vibrant Color Palette for Luko Social */
+  --primary: #FF1493; /* Hot Pink - Primary action */
+  --primary-foreground: #FFFFFF;
+  --secondary: #00D9FF; /* Cyan - Secondary accent */
+  --secondary-foreground: #000000;
+  --accent: #FFD700; /* Golden Yellow - Highlights */
+  --accent-foreground: #000000;
+  --destructive: #FF6B6B; /* Red - Destructive actions */
+  --destructive-foreground: #FFFFFF;
+  --sidebar-primary: #FF1493;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #00D9FF;
+  --sidebar-accent-foreground: #000000;
+  --chart-1: #FF1493;
+  --chart-2: #00D9FF;
+  --chart-3: #FFD700;
+  --chart-4: #A855F7; /* Purple */
+  --chart-5: #06B6D4; /* Teal */
+  --radius: 1rem; /* Generous rounded corners */
+  --background: #FFFFFF;
+  --foreground: #1A1A1A;
+  --card: #F8F8F8;
+  --card-foreground: #1A1A1A;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A1A;
+  --muted: #E0E0E0;
+  --muted-foreground: #666666;
+  --border: #E8E8E8;
+  --input: #F5F5F5;
+  --ring: #FF1493;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1A1A1A;
+  --sidebar-border: #E8E8E8;
+  --sidebar-ring: #FF1493;
 }
 
 .dark {
@@ -118,8 +122,21 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -158,6 +175,39 @@
   .flex {
     min-height: 0;
     min-width: 0;
+  }
+
+  /* Playful & Vibrant Design System */
+  .gradient-primary {
+    @apply bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-400;
+  }
+
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-yellow-300 to-pink-300;
+  }
+
+  .card-playful {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6;
+  }
+
+  .btn-playful {
+    @apply px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .btn-primary-playful {
+    @apply btn-playful bg-pink-500 text-white hover:bg-pink-600 shadow-lg hover:shadow-xl;
+  }
+
+  .btn-secondary-playful {
+    @apply btn-playful bg-cyan-400 text-black hover:bg-cyan-500;
+  }
+
+  .sticker-animation {
+    @apply animate-bounce;
+  }
+
+  .shimmer {
+    @apply bg-gradient-to-r from-gray-200 via-white to-gray-200 bg-[length:1000px_100%] animate-pulse;
   }
 
   @media (min-width: 640px) {
