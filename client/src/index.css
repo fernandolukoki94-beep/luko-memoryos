@@ -47,13 +47,13 @@
 
 :root {
   /* Playful & Vibrant Color Palette for Luko Social */
-  --primary: #FF1493; /* Hot Pink - Primary action */
+  --primary: #FF1493;
   --primary-foreground: #FFFFFF;
-  --secondary: #00D9FF; /* Cyan - Secondary accent */
+  --secondary: #00D9FF;
   --secondary-foreground: #000000;
-  --accent: #FFD700; /* Golden Yellow - Highlights */
+  --accent: #FFD700;
   --accent-foreground: #000000;
-  --destructive: #FF6B6B; /* Red - Destructive actions */
+  --destructive: #FF6B6B;
   --destructive-foreground: #FFFFFF;
   --sidebar-primary: #FF1493;
   --sidebar-primary-foreground: #FFFFFF;
@@ -62,9 +62,9 @@
   --chart-1: #FF1493;
   --chart-2: #00D9FF;
   --chart-3: #FFD700;
-  --chart-4: #A855F7; /* Purple */
-  --chart-5: #06B6D4; /* Teal */
-  --radius: 1rem; /* Generous rounded corners */
+  --chart-4: #A855F7;
+  --chart-5: #06B6D4;
+  --radius: 1rem;
   --background: #FFFFFF;
   --foreground: #1A1A1A;
   --card: #F8F8F8;
@@ -98,7 +98,7 @@
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
   --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
+  --accent-foreground: oklch(0.92 0.005 65);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
@@ -112,7 +112,7 @@
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.85 0.005 65);
   --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.488 0.243 264.376);
 }
@@ -136,7 +136,6 @@
   h3 {
     @apply text-2xl md:text-3xl;
   }
-}
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -151,24 +150,11 @@
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -177,7 +163,6 @@
     min-width: 0;
   }
 
-  /* Playful & Vibrant Design System */
   .gradient-primary {
     @apply bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-400;
   }
@@ -195,11 +180,41 @@
   }
 
   .btn-primary-playful {
-    @apply btn-playful bg-pink-500 text-white hover:bg-pink-600 shadow-lg hover:shadow-xl;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    background-color: #FF1493;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary-playful:hover {
+    background-color: #E60E7F;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+  }
+
+  .btn-primary-playful:active {
+    transform: scale(0.95);
   }
 
   .btn-secondary-playful {
-    @apply btn-playful bg-cyan-400 text-black hover:bg-cyan-500;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    background-color: #00D9FF;
+    color: black;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary-playful:hover {
+    background-color: #00B8D4;
+    transform: scale(1.05);
+  }
+
+  .btn-secondary-playful:active {
+    transform: scale(0.95);
   }
 
   .sticker-animation {
@@ -212,16 +227,16 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
 }
