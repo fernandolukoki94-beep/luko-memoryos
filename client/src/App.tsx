@@ -5,11 +5,13 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import Auth from "./pages/Auth";
 import Feed from "./pages/Feed";
 import Chat from "./pages/Chat";
 import Profile from "./pages/Profile";
 import BottomNav from "./components/BottomNav";
+import Header from "./components/Header";
 
 function Router() {
   const { currentUser, loading } = useAuth();
@@ -31,13 +33,16 @@ function Router() {
 
   return (
     <>
-      <Switch>
-        <Route path="/" component={Feed} />
-        <Route path="/chat" component={Chat} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/404" component={NotFound} />
-        <Route component={NotFound} />
-      </Switch>
+      <Header />
+      <div className="pb-20 md:pb-0">
+        <Switch>
+          <Route path="/" component={Feed} />
+          <Route path="/chat" component={Chat} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/404" component={NotFound} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
       <BottomNav />
     </>
   );
@@ -53,10 +58,12 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
+          <NotificationProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </NotificationProvider>
         </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>
