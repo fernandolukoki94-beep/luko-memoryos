@@ -1,199 +1,296 @@
-# Luko Social - Rede Social com Chat 🎉
+# Fernando Lukoki: Luta e Aventura
 
-Uma aplicação web moderna estilo **Instagram + WhatsApp** construída com **React**, **Firebase** e **Tailwind CSS**, totalmente configurada como **PWA** para instalação no telemóvel.
+Um jogo RPG de ação 2D desenvolvido em HTML5 e JavaScript, apresentando um sistema de combate dinâmico, progressão de personagem e exploração de múltiplos mapas.
 
-## 🚀 Funcionalidades
+![Fernando Lukoki: Luta e Aventura](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+![Licença](https://img.shields.io/badge/Licença-MIT-green)
+![Versão](https://img.shields.io/badge/Versão-1.0.0-blue)
 
-### 📸 Funcionalidades Instagram-style
-- **Feed de Posts** - Vê posts dos teus amigos
-- **Stories** - Partilha momentos que desaparecem em 24h
-- **Likes e Comentários** - Interage com posts
-- **Perfil de Utilizador** - Edita teu bio e foto
+## 🎮 Visão Geral
 
-### 💬 Funcionalidades WhatsApp-style
-- **Chat em Tempo Real** - Mensagens instantâneas
-- **Conversas** - Organiza teus chats
-- **Status Online** - Vê quem está online
-- **Notificações** - Recebe alertas de novas mensagens
+**Fernando Lukoki: Luta e Aventura** é um jogo de ação e aventura em 2D que coloca o jogador no papel de um guerreiro em busca de glória. Embarque em uma jornada épica através de florestas misteriosas, ruínas antigas e templos sagrados, enfrentando inimigos poderosos e progressando através de um sistema RPG completo.
 
-### 📱 PWA (Progressive Web App)
-- **Instalável no Telemóvel** - Funciona como app nativa
-- **Offline** - Funciona sem internet
-- **Push Notifications** - Recebe notificações
-- **Home Screen** - Adiciona à tela inicial
+O jogo foi desenvolvido utilizando tecnologias web modernas, oferecendo uma experiência fluida com 60 FPS, sistema de combate responsivo e mecânicas de RPG profundas.
 
-## 🛠️ Stack Tecnológico
+## ✨ Funcionalidades Principais
 
-- **Frontend**: React 19 + TypeScript + Tailwind CSS 4
-- **Backend**: Firebase (Auth, Firestore, Storage, Realtime Database)
-- **PWA**: Service Worker + Manifest.json
-- **Routing**: Wouter (lightweight router)
-- **UI Components**: shadcn/ui
+### Sistema de Combate
+O jogo apresenta um sistema de combate corpo a corpo dinâmico com as seguintes características:
 
-## 📋 Pré-requisitos
+- **Ataque Corpo a Corpo**: Clique do mouse para atacar inimigos próximos
+- **Dano Crítico**: 20% de chance de dano crítico com multiplicador 1.5x
+- **Knockback**: Empurrão ao acertar inimigos para criar espaço
+- **Cooldown de Ataque**: Sistema de cooldown para balanceamento
+- **Defesa**: Redução de dano baseada em stats de defesa
 
-- Node.js 18+
-- npm ou pnpm
-- Conta Firebase (já configurada)
+### Progressão RPG
+Um sistema completo de progressão que recompensa o jogador por suas vitórias:
 
-## ⚙️ Instalação
+- **Experiência (XP)**: Ganho ao derrotar inimigos com curva exponencial
+- **Níveis**: Progressão de personagem com aumento de stats
+- **Stats**: Força (ataque), Defesa (redução de dano), Vitalidade (HP)
+- **Ouro**: Moeda coletada ao derrotar inimigos
+- **Inventário**: Sistema de 20 slots para armazenamento de itens
 
+### Exploração de Mapas
+Três mapas distintos com ambientes únicos e desafios progressivos:
+
+- **Floresta Misteriosa**: Primeiro mapa com inimigos básicos
+- **Ruínas Antigas**: Segundo mapa com desafios intermediários
+- **Templo Sagrado**: Terceiro mapa com o confronto final
+
+### Sistema de IA
+Inimigos inteligentes com comportamento adaptativo:
+
+- **Patrulha**: Movimento automático em área definida
+- **Detecção**: Raio de visão de 200px para detectar o jogador
+- **Perseguição**: Seguir o jogador quando detectado
+- **Ataque**: Ataque automático quando em alcance
+- **Máquina de Estados**: Transição suave entre estados (Patrulha, Perseguição, Ataque)
+
+### Interface de Jogo
+HUD completo com informações em tempo real:
+
+- **Barra de Vida**: Visualização de HP com cores dinâmicas
+- **Barra de XP**: Progresso para o próximo nível
+- **Stats**: Exibição de nível, ouro, força e defesa
+- **Nível de Ameaça**: Indicador visual de perigo (Seguro, Aviso, Perigo)
+- **Minimapa**: Visualização dos arredores com posição do jogador e inimigos
+
+### Sistemas Avançados
+Implementações que elevam a qualidade do jogo:
+
+- **Sistema de Partículas**: Efeitos visuais para dano, morte, ataque e cura
+- **Sistema de Áudio**: Suporte para música de fundo e efeitos sonoros
+- **Sistema de Missões**: 3 missões principais com objetivos e recompensas
+- **Sistema de Save/Load**: Salvamento em LocalStorage com múltiplos slots
+- **Logging Estruturado**: Sistema de logging para debugging
+
+## 🎯 Controles
+
+| Ação | Controle |
+|------|----------|
+| Mover Esquerda | A ou Seta Esquerda |
+| Mover Direita | D ou Seta Direita |
+| Saltar | Espaço |
+| Atacar | Clique do Mouse |
+| Pausar | ESC |
+| Menu | P |
+
+## 🛠️ Tecnologias Utilizadas
+
+O projeto foi desenvolvido com as seguintes tecnologias:
+
+- **Frontend**: React 19 + TypeScript
+- **Renderização**: HTML5 Canvas 2D
+- **Build Tool**: Vite
+- **Estilização**: Tailwind CSS 4
+- **Física**: Sistema de colisão AABB customizado
+- **Armazenamento**: LocalStorage para saves
+
+## 📊 Arquitetura do Projeto
+
+A estrutura do projeto segue uma arquitetura modular e escalável:
+
+```
+client/src/game/
+├── core/                    # Motor do jogo
+│   ├── GameEngine.ts        # Loop principal
+│   ├── Renderer.ts          # Renderização Canvas
+│   ├── InputHandler.ts      # Entrada de usuário
+│   ├── Physics.ts           # Sistema de física
+│   └── GameState.ts         # Estado global
+├── entities/                # Entidades do jogo
+│   ├── Entity.ts            # Classe base
+│   ├── Player.ts            # Personagem jogável
+│   ├── Enemy.ts             # Classe base de inimigos
+│   └── EnemyStone.ts        # Inimigo específico
+├── systems/                 # Sistemas de jogo
+│   ├── CombatSystem.ts      # Combate
+│   ├── RPGSystem.ts         # Progressão RPG
+│   ├── AISystem.ts          # IA dos inimigos
+│   ├── InventorySystem.ts   # Inventário
+│   ├── QuestSystem.ts       # Missões
+│   ├── AudioSystem.ts       # Áudio
+│   └── ParticleSystem.ts    # Partículas
+├── maps/                    # Mapas do jogo
+│   ├── Map.ts               # Classe base
+│   ├── MapForest.ts         # Floresta
+│   ├── MapRuins.ts          # Ruínas
+│   ├── MapTemple.ts         # Templo
+│   └── MapManager.ts        # Gerenciador
+├── ui/                      # Interface
+│   └── HUD.ts               # Interface de jogo
+├── constants/               # Configurações
+│   ├── GameConfig.ts        # Configurações principais
+│   └── Enums.ts             # Enumerações
+└── utils/                   # Utilitários
+    ├── MathUtils.ts         # Funções matemáticas
+    ├── Logger.ts            # Logging
+    └── SaveSystem.ts        # Sistema de save
+```
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+- Node.js 18+ instalado
+- npm ou pnpm como gerenciador de pacotes
+
+### Instalação e Execução
+
+1. Clone o repositório:
 ```bash
-# Clone o repositório
-git clone https://github.com/teu-usuario/luko-social.git
-cd luko-social
+git clone https://github.com/fernandolukoki94-beep/luko-social.git
+cd Fernando-Lukoki-Adventure
+```
 
-# Instala dependências
+2. Instale as dependências:
+```bash
 pnpm install
+```
 
-# Inicia o servidor de desenvolvimento
+3. Inicie o servidor de desenvolvimento:
+```bash
 pnpm dev
 ```
 
-O servidor estará disponível em `http://localhost:3000`
+4. Abra o navegador em `http://localhost:3000`
 
-## 🔐 Configuração Firebase
+### Build para Produção
 
-A configuração Firebase já está incluída no arquivo `client/src/lib/firebase.ts`. Se precisares de alterar:
+```bash
+pnpm build
+```
+
+O build será gerado na pasta `dist/`.
+
+## 📈 Progressão do Jogo
+
+### Curva de Experiência
+A experiência necessária para cada nível segue uma progressão exponencial:
+
+```
+XP para nível N = 100 * (1.2)^(N-1)
+```
+
+Isso cria uma curva de dificuldade que aumenta gradualmente, mantendo o jogo desafiador conforme o jogador progride.
+
+### Aumento de Stats por Nível
+Ao subir de nível, o jogador recebe os seguintes aumentos:
+
+| Stat | Aumento por Nível |
+|------|-------------------|
+| Força | +2 |
+| Defesa | +1 |
+| Velocidade | +0.5 |
+| Vitalidade | +5 HP |
+
+## 🎨 Design Visual
+
+O jogo utiliza um estilo visual pixel art 2D com uma paleta de cores temática:
+
+- **Floresta**: Tons de verde (#1a4d0e, #2d5016)
+- **Ruínas**: Tons de cinza (#4a4a4a, #6b6b6b)
+- **Templo**: Tons de dourado (#3d3d1f, #d4af37)
+
+A interface utiliza cores contrastantes para máxima legibilidade, com barras de vida em verde/amarelo/vermelho baseadas no percentual de HP.
+
+## 🔄 Ciclo de Atualização
+
+O motor do jogo executa em 60 FPS com o seguinte ciclo:
+
+1. **Input**: Captura entrada do teclado e mouse
+2. **Update**: Atualiza posição, colisão, IA e combate
+3. **Render**: Desenha tudo no Canvas
+4. **Audio**: Reproduz sons
+
+Cada frame leva aproximadamente 16.67ms para manter a fluidez.
+
+## 🐛 Debugging
+
+O jogo inclui um modo debug que pode ser ativado em `GameConfig.ts`:
 
 ```typescript
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  databaseURL: "YOUR_DATABASE_URL"
-};
+DEBUG: {
+  ENABLED: true,
+  SHOW_HITBOXES: true,
+  SHOW_GRID: true,
+  SHOW_FPS: true,
+}
 ```
 
-## 🚀 Deploy no GitHub Pages
+Quando ativado, exibe hitboxes das entidades, grid do mapa e contador de FPS.
 
-### 1. Criar repositório no GitHub
+## 📝 Missões
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/teu-usuario/luko-social.git
-git push -u origin main
-```
+O jogo inclui 3 missões principais que guiam o jogador através da aventura:
 
-### 2. Configurar GitHub Pages
+| Missão | Objetivo | Recompensa |
+|--------|----------|-----------|
+| Os Primeiros Passos | Derrotar 5 monstros de pedra | 200 XP, 100 ouro |
+| Explorador das Ruínas | Alcançar o final das ruínas | 300 XP, 150 ouro |
+| O Confronto Final | Derrotar o boss final | 500 XP, 300 ouro |
 
-1. Vai a **Settings** → **Pages**
-2. Seleciona **Deploy from a branch**
-3. Escolhe a branch **main** e pasta **/ (root)**
-4. Clica em **Save**
+## 🎓 Aprendizados e Técnicas
 
-### 3. Build e Deploy
+Este projeto demonstra conhecimento em várias áreas:
 
-```bash
-# Build para produção
-pnpm build
+### Programação de Jogos
+- Arquitetura de motor de jogo modular
+- Loop de jogo com timing consistente
+- Máquina de estados para comportamento de IA
+- Sistemas de partículas para efeitos visuais
 
-# Deploy (automático com GitHub Actions ou manual)
-git add dist/
-git commit -m "Deploy to GitHub Pages"
-git push
-```
+### Algoritmos
+- Detecção de colisão AABB
+- Pathfinding simples com cálculo de distância
+- Curva exponencial para progressão
+- Máquina de estados para IA
 
-A app estará disponível em: `https://teu-usuario.github.io/luko-social`
+### Otimização
+- Object pooling para partículas
+- Culling de entidades fora da câmera
+- Canvas double-buffering
+- Gerenciamento eficiente de memória
 
-## 📱 Instalar como App
+### Boas Práticas
+- TypeScript para type safety
+- Separação clara de responsabilidades
+- Documentação inline completa
+- Sistema de logging estruturado
 
-### No Chrome/Android
-1. Abre a app no navegador
-2. Clica no menu (⋮) → **Instalar app**
-3. Confirma a instalação
+## 🔮 Melhorias Futuras
 
-### No Safari/iOS
-1. Abre a app no Safari
-2. Clica em **Partilhar** → **Adicionar à Tela Inicial**
-3. Confirma
+Potenciais expansões do projeto:
 
-## 🎨 Design
+- **Mais Inimigos**: Adicionar novos tipos com comportamentos únicos
+- **Boss Fights**: Implementar chefes com padrões de ataque complexos
+- **Sistema de Habilidades**: Árvore de habilidades desbloqueáveis
+- **Multiplayer Local**: Modo cooperativo para 2 jogadores
+- **Achievements**: Sistema de conquistas e estatísticas
+- **Leaderboard Online**: Ranking global de jogadores
+- **Geração Procedural**: Mapas gerados aleatoriamente
+- **Editor de Mapas**: Ferramenta para criar novos mapas
 
-A aplicação usa o design **Playful & Vibrant** com:
-- **Cores Primárias**: Rosa (#FF1493), Cyan (#00D9FF), Amarelo (#FFD700)
-- **Tipografia**: Poppins (display) + Inter (body)
-- **Rounded Corners**: 1rem (16px) para sensação amigável
-- **Animações**: Transições suaves e feedback visual
+## 📄 Licença
 
-## 📁 Estrutura do Projeto
-
-```
-luko-social/
-├── client/
-│   ├── public/
-│   │   ├── manifest.json      # PWA manifest
-│   │   ├── sw.js              # Service Worker
-│   │   └── favicon.ico
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── Auth.tsx        # Login/Signup
-│   │   │   ├── Feed.tsx        # Feed principal
-│   │   │   ├── Chat.tsx        # Chat em tempo real
-│   │   │   └── Profile.tsx     # Perfil do utilizador
-│   │   ├── components/
-│   │   │   └── BottomNav.tsx   # Navegação mobile
-│   │   ├── contexts/
-│   │   │   ├── AuthContext.tsx # Autenticação
-│   │   │   └── ThemeContext.tsx
-│   │   ├── lib/
-│   │   │   ├── firebase.ts     # Config Firebase
-│   │   │   └── types.ts        # TypeScript types
-│   │   ├── App.tsx             # Root component
-│   │   ├── main.tsx            # Entry point
-│   │   └── index.css           # Global styles
-│   └── index.html              # HTML template
-├── package.json
-└── README.md
-```
-
-## 🔧 Variáveis de Ambiente
-
-Cria um arquivo `.env.local` (opcional):
-
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-```
-
-## 📚 Documentação
-
-- [React Docs](https://react.dev)
-- [Firebase Docs](https://firebase.google.com/docs)
-- [Tailwind CSS](https://tailwindcss.com)
-- [shadcn/ui](https://ui.shadcn.com)
-
-## 🐛 Troubleshooting
-
-### A app não carrega
-- Verifica a consola do navegador (F12)
-- Confirma que o Firebase está configurado corretamente
-- Limpa o cache: Ctrl+Shift+Delete
-
-### Service Worker não funciona
-- Certifica-te que estás em HTTPS (ou localhost)
-- Verifica em DevTools → Application → Service Workers
-
-### PWA não instala
-- Verifica se o manifest.json está correto
-- Confirma que tens um ícone válido
-- Tenta noutro navegador
-
-## 📝 Licença
-
-MIT License - Sinta-se livre para usar e modificar!
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 👨‍💻 Autor
 
-Criado com ❤️ para conectar pessoas
+**Fernando Lukoki** - Desenvolvedor
+
+- GitHub: [@fernandolukoki94-beep](https://github.com/fernandolukoki94-beep)
+- Email: fernando.lukoki@example.com
+
+## 🙏 Agradecimentos
+
+Este projeto foi desenvolvido como demonstração de habilidades em desenvolvimento de jogos web, programação de IA e arquitetura de software.
+
+## 📞 Suporte
+
+Para reportar bugs, sugerir features ou fazer perguntas, abra uma issue no repositório GitHub.
 
 ---
 
-**Dica**: Para melhor experiência, usa a app no telemóvel! 📱
+**Desenvolvido com ❤️ em 2026**
