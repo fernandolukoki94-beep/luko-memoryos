@@ -1,0 +1,39 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  senha VARCHAR(255) NOT NULL,
+  foto VARCHAR(255)
+);
+
+CREATE TABLE memories (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  titulo VARCHAR(255) NOT NULL,
+  descricao TEXT,
+  data DATE,
+  local VARCHAR(255),
+  emocao VARCHAR(255)
+);
+
+CREATE TABLE media (
+  id SERIAL PRIMARY KEY,
+  memory_id INTEGER NOT NULL REFERENCES memories(id) ON DELETE CASCADE,
+  tipo VARCHAR(50) NOT NULL, -- e.g., 'photo', 'video', 'audio'
+  arquivo_url VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY,
+  memory_id INTEGER NOT NULL REFERENCES memories(id) ON DELETE CASCADE,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  texto TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE future_messages (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  mensagem TEXT NOT NULL,
+  data_abertura DATE NOT NULL
+);

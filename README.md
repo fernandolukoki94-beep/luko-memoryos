@@ -1,296 +1,140 @@
-# Fernando Lukoki: Luta e Aventura
+# Luko Memories (MemoryOS)
 
-Um jogo RPG de ação 2D desenvolvido em HTML5 e JavaScript, apresentando um sistema de combate dinâmico, progressão de personagem e exploração de múltiplos mapas.
+## O Cofre Digital da Sua Vida
 
-![Fernando Lukoki: Luta e Aventura](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
-![Licença](https://img.shields.io/badge/Licença-MIT-green)
-![Versão](https://img.shields.io/badge/Versão-1.0.0-blue)
+Bem-vindo ao Luko Memories, um projeto ambicioso que visa criar um "cofre digital da vida" onde cada pessoa pode guardar e reviver seus momentos, histórias e sentimentos mais preciosos. Mais do que um simples diário, o MemoryOS é uma plataforma completa para preservar a sua jornada de vida de forma rica e interativa.
 
-## 🎮 Visão Geral
+## Visão Geral do Projeto
 
-**Fernando Lukoki: Luta e Aventura** é um jogo de ação e aventura em 2D que coloca o jogador no papel de um guerreiro em busca de glória. Embarque em uma jornada épica através de florestas misteriosas, ruínas antigas e templos sagrados, enfrentando inimigos poderosos e progressando através de um sistema RPG completo.
+Este projeto combina o poder da programação com a profundidade das emoções humanas, utilizando tecnologias modernas de backend, frontend e inteligência artificial para oferecer uma experiência única. É um projeto de portfólio robusto, ideal para demonstrar habilidades em desenvolvimento full-stack, gestão de bases de dados e integração de IA.
 
-O jogo foi desenvolvido utilizando tecnologias web modernas, oferecendo uma experiência fluida com 60 FPS, sistema de combate responsivo e mecânicas de RPG profundas.
+## Funcionalidades Principais
 
-## ✨ Funcionalidades Principais
+### 1. Conta do Usuário
+- **Criação de Conta/Login:** Sistema seguro de autenticação.
+- **Perfil Pessoal:** Gerenciamento de informações e foto de perfil.
+- **Configurações de Privacidade:** Controle total sobre quem pode ver suas memórias.
 
-### Sistema de Combate
-O jogo apresenta um sistema de combate corpo a corpo dinâmico com as seguintes características:
+### 2. Criação de Memórias Detalhadas
+Cada memória pode incluir:
+- 📸 **Fotos:** Imagens para ilustrar seus momentos.
+- 🎥 **Vídeos:** Clipes que capturam a essência de cada evento.
+- 🎵 **Áudios:** Gravações de voz contando a história por trás da memória.
+- ✍️ **Texto:** Descrições detalhadas e reflexões.
+- 📍 **Local:** Onde a memória aconteceu.
+- 📅 **Data:** Quando a memória foi criada ou ocorreu.
+- 😊 **Estado Emocional:** Registre como você se sentiu (feliz, triste, saudade, amor, conquista).
 
-- **Ataque Corpo a Corpo**: Clique do mouse para atacar inimigos próximos
-- **Dano Crítico**: 20% de chance de dano crítico com multiplicador 1.5x
-- **Knockback**: Empurrão ao acertar inimigos para criar espaço
-- **Cooldown de Ataque**: Sistema de cooldown para balanceamento
-- **Defesa**: Redução de dano baseada em stats de defesa
+### 3. Linha do Tempo (Timeline)
+Visualize sua vida como uma narrativa cronológica, com todos os eventos importantes organizados em uma linha do tempo interativa.
 
-### Progressão RPG
-Um sistema completo de progressão que recompensa o jogador por suas vitórias:
+### 4. Memórias Privadas, Familiares ou Públicas
+Escolha o nível de privacidade para cada memória:
+- 🔒 **Privada:** Apenas você pode ver.
+- 👥 **Família:** Compartilhe com pessoas autorizadas.
+- 🌍 **Pública:** Transforme suas histórias em uma rede social de memórias.
 
-- **Experiência (XP)**: Ganho ao derrotar inimigos com curva exponencial
-- **Níveis**: Progressão de personagem com aumento de stats
-- **Stats**: Força (ataque), Defesa (redução de dano), Vitalidade (HP)
-- **Ouro**: Moeda coletada ao derrotar inimigos
-- **Inventário**: Sistema de 20 slots para armazenamento de itens
+### 5. Inteligência Artificial (IA)
+Um "assistente de memória" inteligente que pode:
+- **Organizar Fotos Automaticamente:** Categorização e sugestões inteligentes.
+- **Criar Textos:** Gerar descrições poéticas ou resumos com base nas suas memórias.
+- **Resumo da Vida:** Criar um resumo da sua jornada de vida.
+- **Vídeos de Homenagem:** Gerar vídeos comemorativos a partir de suas fotos e vídeos.
 
-### Exploração de Mapas
-Três mapas distintos com ambientes únicos e desafios progressivos:
+### 6. Caixa do Futuro
+Envie mensagens para o seu "eu" do futuro, com a opção de definir uma data específica para a abertura da mensagem (ex: daqui a 10 anos).
 
-- **Floresta Misteriosa**: Primeiro mapa com inimigos básicos
-- **Ruínas Antigas**: Segundo mapa com desafios intermediários
-- **Templo Sagrado**: Terceiro mapa com o confronto final
+### 7. Memórias de Pessoas que Partiram
+Um memorial digital para homenagear entes queridos, com fotos, histórias, mensagens e datas importantes.
 
-### Sistema de IA
-Inimigos inteligentes com comportamento adaptativo:
+## Tecnologias Utilizadas
 
-- **Patrulha**: Movimento automático em área definida
-- **Detecção**: Raio de visão de 200px para detectar o jogador
-- **Perseguição**: Seguir o jogador quando detectado
-- **Ataque**: Ataque automático quando em alcance
-- **Máquina de Estados**: Transição suave entre estados (Patrulha, Perseguição, Ataque)
+### Backend
+- **Linguagem:** Node.js
+- **Framework:** Express.js
+- **Base de Dados:** PostgreSQL
+- **Autenticação:** JWT (JSON Web Tokens)
 
-### Interface de Jogo
-HUD completo com informações em tempo real:
+### Frontend
+- **Framework:** React
+- **Estilização:** Tailwind CSS
+- **Animações:** Framer Motion
+- **Roteamento:** React Router DOM
 
-- **Barra de Vida**: Visualização de HP com cores dinâmicas
-- **Barra de XP**: Progresso para o próximo nível
-- **Stats**: Exibição de nível, ouro, força e defesa
-- **Nível de Ameaça**: Indicador visual de perigo (Seguro, Aviso, Perigo)
-- **Minimapa**: Visualização dos arredores com posição do jogador e inimigos
-
-### Sistemas Avançados
-Implementações que elevam a qualidade do jogo:
-
-- **Sistema de Partículas**: Efeitos visuais para dano, morte, ataque e cura
-- **Sistema de Áudio**: Suporte para música de fundo e efeitos sonoros
-- **Sistema de Missões**: 3 missões principais com objetivos e recompensas
-- **Sistema de Save/Load**: Salvamento em LocalStorage com múltiplos slots
-- **Logging Estruturado**: Sistema de logging para debugging
-
-## 🎯 Controles
-
-| Ação | Controle |
-|------|----------|
-| Mover Esquerda | A ou Seta Esquerda |
-| Mover Direita | D ou Seta Direita |
-| Saltar | Espaço |
-| Atacar | Clique do Mouse |
-| Pausar | ESC |
-| Menu | P |
-
-## 🛠️ Tecnologias Utilizadas
-
-O projeto foi desenvolvido com as seguintes tecnologias:
-
-- **Frontend**: React 19 + TypeScript
-- **Renderização**: HTML5 Canvas 2D
-- **Build Tool**: Vite
-- **Estilização**: Tailwind CSS 4
-- **Física**: Sistema de colisão AABB customizado
-- **Armazenamento**: LocalStorage para saves
-
-## 📊 Arquitetura do Projeto
-
-A estrutura do projeto segue uma arquitetura modular e escalável:
+## Estrutura do Projeto
 
 ```
-client/src/game/
-├── core/                    # Motor do jogo
-│   ├── GameEngine.ts        # Loop principal
-│   ├── Renderer.ts          # Renderização Canvas
-│   ├── InputHandler.ts      # Entrada de usuário
-│   ├── Physics.ts           # Sistema de física
-│   └── GameState.ts         # Estado global
-├── entities/                # Entidades do jogo
-│   ├── Entity.ts            # Classe base
-│   ├── Player.ts            # Personagem jogável
-│   ├── Enemy.ts             # Classe base de inimigos
-│   └── EnemyStone.ts        # Inimigo específico
-├── systems/                 # Sistemas de jogo
-│   ├── CombatSystem.ts      # Combate
-│   ├── RPGSystem.ts         # Progressão RPG
-│   ├── AISystem.ts          # IA dos inimigos
-│   ├── InventorySystem.ts   # Inventário
-│   ├── QuestSystem.ts       # Missões
-│   ├── AudioSystem.ts       # Áudio
-│   └── ParticleSystem.ts    # Partículas
-├── maps/                    # Mapas do jogo
-│   ├── Map.ts               # Classe base
-│   ├── MapForest.ts         # Floresta
-│   ├── MapRuins.ts          # Ruínas
-│   ├── MapTemple.ts         # Templo
-│   └── MapManager.ts        # Gerenciador
-├── ui/                      # Interface
-│   └── HUD.ts               # Interface de jogo
-├── constants/               # Configurações
-│   ├── GameConfig.ts        # Configurações principais
-│   └── Enums.ts             # Enumerações
-└── utils/                   # Utilitários
-    ├── MathUtils.ts         # Funções matemáticas
-    ├── Logger.ts            # Logging
-    └── SaveSystem.ts        # Sistema de save
+luko-social/
+├── backend/                # Servidor Node.js (Express)
+│   ├── src/
+│   │   ├── config/         # Configurações (DB, etc.)
+│   │   ├── controllers/    # Lógica de negócio
+│   │   ├── middleware/     # Middlewares de autenticação, etc.
+│   │   ├── models/         # Modelos de dados (interação com DB)
+│   │   ├── routes/         # Definição de rotas da API
+│   │   └── server.js       # Ponto de entrada do servidor
+│   └── package.json
+├── frontend/               # Aplicação React
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── pages/          # Páginas da aplicação
+│   │   ├── services/
+│   │   └── styles/
+│   ├── index.html
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── vite.config.js
+├── .env.example            # Exemplo de variáveis de ambiente
+├── README.md               # Este ficheiro
+└── ... (outros ficheiros do repositório original)
 ```
 
-## 🚀 Como Executar
+## Como Configurar e Executar (Desenvolvimento)
 
 ### Pré-requisitos
-- Node.js 18+ instalado
-- npm ou pnpm como gerenciador de pacotes
+- Node.js (v18 ou superior)
+- npm ou yarn
+- PostgreSQL
 
-### Instalação e Execução
-
-1. Clone o repositório:
+### 1. Clonar o Repositório
 ```bash
 git clone https://github.com/fernandolukoki94-beep/luko-social.git
-cd Fernando-Lukoki-Adventure
+cd luko-social
 ```
 
-2. Instale as dependências:
+### 2. Configurar o Backend
 ```bash
-pnpm install
+cd backend
+npm install
+cp ../.env.example .env
+# Edite o ficheiro .env com as suas credenciais do PostgreSQL e JWT_SECRET
+# Execute o script SQL em src/config/schema.sql para criar as tabelas no seu DB
+npm run dev
 ```
 
-3. Inicie o servidor de desenvolvimento:
+### 3. Configurar o Frontend
 ```bash
-pnpm dev
+cd ../frontend
+npm install
+npm run dev
 ```
 
-4. Abra o navegador em `http://localhost:3000`
+O frontend estará disponível em `http://localhost:5173` e o backend em `http://localhost:3001`.
 
-### Build para Produção
+## Contribuição
 
-```bash
-pnpm build
-```
+Contribuições são bem-vindas! Por favor, leia o `CONTRIBUTING.md` para mais detalhes sobre como contribuir para este projeto.
 
-O build será gerado na pasta `dist/`.
+## Licença
 
-## 📈 Progressão do Jogo
-
-### Curva de Experiência
-A experiência necessária para cada nível segue uma progressão exponencial:
-
-```
-XP para nível N = 100 * (1.2)^(N-1)
-```
-
-Isso cria uma curva de dificuldade que aumenta gradualmente, mantendo o jogo desafiador conforme o jogador progride.
-
-### Aumento de Stats por Nível
-Ao subir de nível, o jogador recebe os seguintes aumentos:
-
-| Stat | Aumento por Nível |
-|------|-------------------|
-| Força | +2 |
-| Defesa | +1 |
-| Velocidade | +0.5 |
-| Vitalidade | +5 HP |
-
-## 🎨 Design Visual
-
-O jogo utiliza um estilo visual pixel art 2D com uma paleta de cores temática:
-
-- **Floresta**: Tons de verde (#1a4d0e, #2d5016)
-- **Ruínas**: Tons de cinza (#4a4a4a, #6b6b6b)
-- **Templo**: Tons de dourado (#3d3d1f, #d4af37)
-
-A interface utiliza cores contrastantes para máxima legibilidade, com barras de vida em verde/amarelo/vermelho baseadas no percentual de HP.
-
-## 🔄 Ciclo de Atualização
-
-O motor do jogo executa em 60 FPS com o seguinte ciclo:
-
-1. **Input**: Captura entrada do teclado e mouse
-2. **Update**: Atualiza posição, colisão, IA e combate
-3. **Render**: Desenha tudo no Canvas
-4. **Audio**: Reproduz sons
-
-Cada frame leva aproximadamente 16.67ms para manter a fluidez.
-
-## 🐛 Debugging
-
-O jogo inclui um modo debug que pode ser ativado em `GameConfig.ts`:
-
-```typescript
-DEBUG: {
-  ENABLED: true,
-  SHOW_HITBOXES: true,
-  SHOW_GRID: true,
-  SHOW_FPS: true,
-}
-```
-
-Quando ativado, exibe hitboxes das entidades, grid do mapa e contador de FPS.
-
-## 📝 Missões
-
-O jogo inclui 3 missões principais que guiam o jogador através da aventura:
-
-| Missão | Objetivo | Recompensa |
-|--------|----------|-----------|
-| Os Primeiros Passos | Derrotar 5 monstros de pedra | 200 XP, 100 ouro |
-| Explorador das Ruínas | Alcançar o final das ruínas | 300 XP, 150 ouro |
-| O Confronto Final | Derrotar o boss final | 500 XP, 300 ouro |
-
-## 🎓 Aprendizados e Técnicas
-
-Este projeto demonstra conhecimento em várias áreas:
-
-### Programação de Jogos
-- Arquitetura de motor de jogo modular
-- Loop de jogo com timing consistente
-- Máquina de estados para comportamento de IA
-- Sistemas de partículas para efeitos visuais
-
-### Algoritmos
-- Detecção de colisão AABB
-- Pathfinding simples com cálculo de distância
-- Curva exponencial para progressão
-- Máquina de estados para IA
-
-### Otimização
-- Object pooling para partículas
-- Culling de entidades fora da câmera
-- Canvas double-buffering
-- Gerenciamento eficiente de memória
-
-### Boas Práticas
-- TypeScript para type safety
-- Separação clara de responsabilidades
-- Documentação inline completa
-- Sistema de logging estruturado
-
-## 🔮 Melhorias Futuras
-
-Potenciais expansões do projeto:
-
-- **Mais Inimigos**: Adicionar novos tipos com comportamentos únicos
-- **Boss Fights**: Implementar chefes com padrões de ataque complexos
-- **Sistema de Habilidades**: Árvore de habilidades desbloqueáveis
-- **Multiplayer Local**: Modo cooperativo para 2 jogadores
-- **Achievements**: Sistema de conquistas e estatísticas
-- **Leaderboard Online**: Ranking global de jogadores
-- **Geração Procedural**: Mapas gerados aleatoriamente
-- **Editor de Mapas**: Ferramenta para criar novos mapas
-
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## 👨‍💻 Autor
-
-**Fernando Lukoki** - Desenvolvedor
-
-- GitHub: [@fernandolukoki94-beep](https://github.com/fernandolukoki94-beep)
-- Email: fernando.lukoki@example.com
-
-## 🙏 Agradecimentos
-
-Este projeto foi desenvolvido como demonstração de habilidades em desenvolvimento de jogos web, programação de IA e arquitetura de software.
-
-## 📞 Suporte
-
-Para reportar bugs, sugerir features ou fazer perguntas, abra uma issue no repositório GitHub.
+Este projeto está licenciado sob a licença MIT. Veja o ficheiro `LICENSE` para mais detalhes.
 
 ---
 
-**Desenvolvido com ❤️ em 2026**
+**MemoryOS — Your Digital Life Archive**
+
+*Um projeto de Fernando Lukoki*
