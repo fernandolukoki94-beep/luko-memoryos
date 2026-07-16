@@ -4,12 +4,12 @@ class Memory {
   /**
    * Cria uma nova memória
    */
-  static async create({ user_id, titulo, descricao, descricao_criptografada, data, local, emocao, privacidade = 'privada', criptografada = false }) {
+  static async create({ user_id, titulo, descricao, descricao_criptografada, data, local, emocao, privacidade = 'privada', criptografada = false, tags = [] }) {
     const result = await pool.query(
-      `INSERT INTO memories (user_id, titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+      `INSERT INTO memories (user_id, titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada, tags) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
        RETURNING *`,
-      [user_id, titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada]
+      [user_id, titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada, tags]
     );
     return result.rows[0];
   }
@@ -58,13 +58,13 @@ class Memory {
   /**
    * Atualiza uma memória existente
    */
-  static async update(id, { titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada }) {
+  static async update(id, { titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada, tags }) {
     const result = await pool.query(
       `UPDATE memories 
-       SET titulo = $1, descricao = $2, descricao_criptografada = $3, data = $4, local = $5, emocao = $6, privacidade = $7, criptografada = $8, atualizado_em = CURRENT_TIMESTAMP
-       WHERE id = $9 
+       SET titulo = $1, descricao = $2, descricao_criptografada = $3, data = $4, local = $5, emocao = $6, privacidade = $7, criptografada = $8, tags = $9, atualizado_em = CURRENT_TIMESTAMP
+       WHERE id = $10 
        RETURNING *`,
-      [titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada, id]
+      [titulo, descricao, descricao_criptografada, data, local, emocao, privacidade, criptografada, tags, id]
     );
     return result.rows[0];
   }
@@ -126,6 +126,32 @@ class Memory {
        WHERE user_id = $1 
        GROUP BY privacidade`,
       [user_id]
+    );
+    return result.rows;
+  }
+
+  /**
+   * Pesquisa memórias do usuário por termo
+   */
+  static async search(user_id, term) {
+    const result = await pool.query(
+      `SELECT * FROM memories 
+       WHERE user_id = $1 AND (titulo ILIKE $2 OR descricao ILIKE $2 OR $3 = ANY(tags))
+       ORDER BY data DESC`,
+      [user_id, `%${term}%`, term]
+    );
+    return result.rows;
+  }
+
+  /**
+   * Encontra memórias por tag
+   */
+  static async findByTag(user_id, tag) {
+    const result = await pool.query(
+      `SELECT * FROM memories 
+       WHERE user_id = $1 AND $2 = ANY(tags)
+       ORDER BY data DESC`,
+      [user_id, tag]
     );
     return result.rows;
   }

@@ -23,6 +23,7 @@ CREATE TABLE memories (
   emocao VARCHAR(255),
   privacidade VARCHAR(50) DEFAULT 'privada', -- 'privada', 'familia', 'publica'
   criptografada BOOLEAN DEFAULT FALSE,
+  tags TEXT[], -- Array de tags para categorização
   criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

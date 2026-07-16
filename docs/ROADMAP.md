@@ -1,39 +1,45 @@
 # 🗺️ MemoryOS Roadmap
 
-Este documento detalha a visão de futuro para o **Luko MemoryOS**, dividido por fases de desenvolvimento.
+Este documento detalha a visão de futuro para o **Luko MemoryOS**, dividido por fases de desenvolvimento estratégico.
 
 ## 🚀 Fase 1: MVP Funcional (Concluído ✅)
-- [x] **Autenticação Segura:** Login/Registro com JWT e hash de senhas.
-- [x] **Gestão de Memórias:** CRUD completo de memórias.
-- [x] **Criptografia:** Proteção de dados sensíveis com AES-256-GCM.
-- [x] **Landing Page Premium:** Design impactante e animado.
-- [x] **Timeline de Vida:** Visualização cronológica de eventos e memórias.
-- [x] **Integração com IA:** Transformação poética e resumos.
+O foco desta fase foi estabelecer o núcleo de segurança e gestão de memórias.
+- [x] **Autenticação Segura:** Login/Registro com JWT e hash de senhas (bcrypt).
+- [x] **Gestão de Memórias:** CRUD completo de memórias com suporte a tags e pesquisa.
+- [x] **Criptografia de Ponta:** Proteção de dados sensíveis com AES-256-GCM.
+- [x] **Landing Page Premium:** Design impactante e animado com Framer Motion.
+- [x] **Timeline de Vida:** Visualização cronológica de eventos e memórias pessoais.
+- [x] **IA Inicial:** Transformação poética, resumos e análise de sentimentos.
+- [x] **Organização:** Sistema de Tags (#família, #viagem, #trabalho) e busca global.
 
 ## 🎨 Fase 2: Experiência Visual e Mídia (Em Desenvolvimento 🚧)
-- [ ] **Upload de Mídia Seguro:** Integração com AWS S3 para fotos e vídeos.
-- [ ] **Galeria Interativa:** Visualização fluida de álbuns de memórias.
-- [ ] **Áudio Narrativo:** Gravação de voz para contar a história por trás da foto.
-- [ ] **Temas Customizáveis:** Dark/Light mode e paletas personalizadas.
+Melhorar a forma como as memórias são visualizadas e enriquecidas.
+- [ ] **Biblioteca de Memórias:** Interface estilo Google Photos com visualização em grade e filtros inteligentes.
+- [ ] **História em Voz 🎙️:** Possibilidade de gravar áudios para narrar o contexto de cada foto ou memória.
+- [ ] **Cloud Storage:** Integração profissional com AWS S3 ou Cloudflare R2 para armazenamento de mídia.
+- [ ] **Temas Dinâmicos:** Suporte total a Dark/Light mode e personalização de cores.
 
 ## 🤖 Fase 3: Memory AI Avançada
-- [ ] **Auto-Storytelling:** Gerar histórias completas baseadas em fotos de um evento.
-- [ ] **Auto-Tagging:** Reconhecimento de objetos e pessoas em fotos para organização.
-- [ ] **Mood Analysis:** Gráficos de evolução emocional baseados nas memórias.
-- [ ] **Life Summary Video:** Gerar um vídeo de retrospectiva do ano automaticamente.
+Utilizar Inteligência Artificial para dar vida às memórias.
+- [ ] **Auto-Storytelling:** Geração de narrativas completas baseadas em conjuntos de fotos.
+- [ ] **Auto-Tagging:** IA que reconhece objetos, locais e pessoas para categorização automática.
+- [ ] **Mood Dashboard:** Gráficos e insights sobre a evolução emocional do usuário ao longo dos anos.
+- [ ] **Life Summary Video:** Geração automática de retrospectivas anuais com música e narração.
 
-## 🌍 Fase 4: Conectividade e Legado
-- [ ] **Memory Map:** Mapa interativo mostrando onde cada memória aconteceu.
-- [ ] **Family Tree:** Árvore genealógica onde cada nó é um perfil com sua própria timeline.
-- [ ] **Life Book:** Gerador de PDF premium formatado como um livro de memórias para impressão.
-- [ ] **Memorial Digital:** Espaço para homenagear e preservar o legado de quem já partiu.
+## 🌍 Fase 4: Comunidade e Família
+Expandir a experiência individual para o círculo social e familiar.
+- [ ] **Memory Family 👨‍👩‍👧‍👦:** Espaços compartilhados para famílias guardarem memórias coletivas.
+- [ ] **Árvore Genealógica Interativa:** Conectar memórias a antepassados e descendentes.
+- [ ] **Memorial Digital:** Espaço respeitoso para preservar e celebrar o legado de entes queridos.
+- [ ] **Colaboração:** Comentários e reações em memórias compartilhadas.
 
-## 📱 Fase 5: Mobile e Ecossistema
-- [ ] **PWA:** Transformar a web app em um Progressive Web App instalável.
-- [ ] **App Nativo:** Versão para iOS e Android com React Native.
-- [ ] **Notificações Inteligentes:** Lembretes de memórias antigas ("Neste dia há 5 anos...").
-- [ ] **API Pública:** Permitir integrações de terceiros com o cofre de memórias.
+## ⏳ Fase 5: Legacy Mode & Futuro
+Garantir que a história do usuário perdure para além do tempo.
+- [ ] **Legacy Mode:** Definir herdeiros digitais que receberão acesso às memórias após um período de inatividade.
+- [ ] **Mensagens do Futuro (Avançado):** Programar entregas de memórias para datas específicas (ex: aniversário de 18 anos de um filho).
+- [ ] **Life Book 📖:** Exportação premium da jornada de vida para um livro digital ou físico.
+- [ ] **App Mobile Nativo:** Versão para iOS e Android para capturar momentos em tempo real.
 
 ---
 
-> "O futuro pertence àqueles que preservam suas histórias."
+> "O MemoryOS não guarda apenas dados; ele preserva a essência de quem você é para as gerações futuras."

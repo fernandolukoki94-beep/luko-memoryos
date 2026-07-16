@@ -5,7 +5,7 @@ const encryptionService = require("../common/encryption");
  * Cria uma nova memória com suporte a criptografia
  */
 exports.createMemory = async (req, res) => {
-  const { titulo, descricao, data, local, emocao, privacidade = 'privada', criptografar = false } = req.body;
+  const { titulo, descricao, data, local, emocao, privacidade = 'privada', criptografar = false, tags = [] } = req.body;
   const user_id = req.user.id;
 
   try {
@@ -37,7 +37,8 @@ exports.createMemory = async (req, res) => {
       local,
       emocao,
       privacidade,
-      criptografada
+      criptografada,
+      tags
     });
 
     res.status(201).json({
@@ -142,7 +143,7 @@ exports.getMemoryById = async (req, res) => {
  */
 exports.updateMemory = async (req, res) => {
   const { id } = req.params;
-  const { titulo, descricao, data, local, emocao, privacidade, criptografar = false, senha_criptografia } = req.body;
+  const { titulo, descricao, data, local, emocao, privacidade, criptografar = false, senha_criptografia, tags } = req.body;
 
   try {
     const memory = await Memory.findById(id);
@@ -182,7 +183,8 @@ exports.updateMemory = async (req, res) => {
       local,
       emocao,
       privacidade,
-      criptografada
+      criptografada,
+      tags
     });
 
     res.json(updatedMemory);
@@ -240,6 +242,48 @@ exports.getPublicMemories = async (req, res) => {
     console.error(err.message);
     res.status(500).json({ 
       message: "Erro ao buscar memórias públicas",
+      error: err.message 
+    });
+  }
+};
+
+/**
+ * Pesquisa memórias do usuário
+ */
+exports.searchMemories = async (req, res) => {
+  const { q } = req.query;
+  const user_id = req.user.id;
+
+  try {
+    if (!q) {
+      return res.status(400).json({ message: "Termo de pesquisa é obrigatório" });
+    }
+
+    const memories = await Memory.search(user_id, q);
+    res.json(memories);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ 
+      message: "Erro ao pesquisar memórias",
+      error: err.message 
+    });
+  }
+};
+
+/**
+ * Busca memórias por tag
+ */
+exports.getMemoriesByTag = async (req, res) => {
+  const { tag } = req.params;
+  const user_id = req.user.id;
+
+  try {
+    const memories = await Memory.findByTag(user_id, tag);
+    res.json(memories);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ 
+      message: "Erro ao buscar memórias por tag",
       error: err.message 
     });
   }
