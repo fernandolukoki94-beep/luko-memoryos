@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const memoryController = require("../controllers/memoryController");
-const auth = require("../middleware/auth");
+const memoryController = require("./memoryController");
+const auth = require("../auth/auth");
 
 router.post("/", auth, memoryController.createMemory);
 router.get("/user/:userId", auth, memoryController.getMemoriesByUser);

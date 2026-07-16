@@ -1,6 +1,6 @@
-const Memory = require("../models/Memory");
-const MemoryAITransformation = require("../models/MemoryAITransformation");
-const aiService = require("../services/aiService");
+const Memory = require("../memories/Memory");
+const MemoryAITransformation = require("./MemoryAITransformation");
+const aiService = require("./aiService");
 
 /**
  * Transforma uma memória em texto poético

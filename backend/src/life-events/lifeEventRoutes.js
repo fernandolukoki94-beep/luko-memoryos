@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const lifeEventController = require("../controllers/lifeEventController");
-const auth = require("../middleware/auth");
+const lifeEventController = require("./lifeEventController");
+const auth = require("../auth/auth");
 
 // Criar um novo evento de vida
 router.post("/", auth, lifeEventController.createLifeEvent);

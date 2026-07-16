@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const securityMiddleware = require('./middleware/security');
+const securityMiddleware = require('./common/security');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -16,13 +16,13 @@ app.use(securityMiddleware.securityLog);
 app.use(cors());
 app.use(express.json());
 
-const userRoutes = require("./routes/userRoutes");
-const memoryRoutes = require("./routes/memoryRoutes");
-const mediaRoutes = require("./routes/mediaRoutes");
-const commentRoutes = require("./routes/commentRoutes");
-const futureMessageRoutes = require("./routes/futureMessageRoutes");
-const lifeEventRoutes = require("./routes/lifeEventRoutes");
-const aiTransformationRoutes = require("./routes/aiTransformationRoutes");
+const userRoutes = require("./users/userRoutes");
+const memoryRoutes = require("./memories/memoryRoutes");
+const mediaRoutes = require("./media/mediaRoutes");
+const commentRoutes = require("./memories/commentRoutes");
+const futureMessageRoutes = require("./memories/futureMessageRoutes");
+const lifeEventRoutes = require("./life-events/lifeEventRoutes");
+const aiTransformationRoutes = require("./ai/aiTransformationRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/memories", memoryRoutes);

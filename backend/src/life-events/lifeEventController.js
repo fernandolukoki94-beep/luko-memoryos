@@ -1,4 +1,4 @@
-const LifeEvent = require("../models/LifeEvent");
+const LifeEvent = require("./LifeEvent");
 
 /**
  * Cria um novo evento de vida

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const mediaController = require("../controllers/mediaController");
-const auth = require("../middleware/auth");
+const mediaController = require("./mediaController");
+const auth = require("../auth/auth");
 
 router.post("/", auth, mediaController.createMedia);
 router.get("/memory/:memoryId", auth, mediaController.getMediaByMemory);

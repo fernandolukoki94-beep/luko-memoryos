@@ -1,5 +1,5 @@
-const Memory = require("../models/Memory");
-const encryptionService = require("../utils/encryption");
+const Memory = require("./Memory");
+const encryptionService = require("../common/encryption");
 
 /**
  * Cria uma nova memória com suporte a criptografia

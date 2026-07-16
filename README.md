@@ -1,140 +1,133 @@
-# Luko Memories (MemoryOS)
+# 🧠 Luko MemoryOS
 
 ## O Cofre Digital da Sua Vida
 
-Bem-vindo ao Luko Memories, um projeto ambicioso que visa criar um "cofre digital da vida" onde cada pessoa pode guardar e reviver seus momentos, histórias e sentimentos mais preciosos. Mais do que um simples diário, o MemoryOS é uma plataforma completa para preservar a sua jornada de vida de forma rica e interativa.
+> Guarde momentos. Preserve histórias. Reviva emoções.
 
-## Visão Geral do Projeto
-
-Este projeto combina o poder da programação com a profundidade das emoções humanas, utilizando tecnologias modernas de backend, frontend e inteligência artificial para oferecer uma experiência única. É um projeto de portfólio robusto, ideal para demonstrar habilidades em desenvolvimento full-stack, gestão de bases de dados e integração de IA.
-
-## Funcionalidades Principais
-
-### 1. Conta do Usuário
-- **Criação de Conta/Login:** Sistema seguro de autenticação.
-- **Perfil Pessoal:** Gerenciamento de informações e foto de perfil.
-- **Configurações de Privacidade:** Controle total sobre quem pode ver suas memórias.
-
-### 2. Criação de Memórias Detalhadas
-Cada memória pode incluir:
-- 📸 **Fotos:** Imagens para ilustrar seus momentos.
-- 🎥 **Vídeos:** Clipes que capturam a essência de cada evento.
-- 🎵 **Áudios:** Gravações de voz contando a história por trás da memória.
-- ✍️ **Texto:** Descrições detalhadas e reflexões.
-- 📍 **Local:** Onde a memória aconteceu.
-- 📅 **Data:** Quando a memória foi criada ou ocorreu.
-- 😊 **Estado Emocional:** Registre como você se sentiu (feliz, triste, saudade, amor, conquista).
-
-### 3. Linha do Tempo (Timeline)
-Visualize sua vida como uma narrativa cronológica, com todos os eventos importantes organizados em uma linha do tempo interativa.
-
-### 4. Memórias Privadas, Familiares ou Públicas
-Escolha o nível de privacidade para cada memória:
-- 🔒 **Privada:** Apenas você pode ver.
-- 👥 **Família:** Compartilhe com pessoas autorizadas.
-- 🌍 **Pública:** Transforme suas histórias em uma rede social de memórias.
-
-### 5. Inteligência Artificial (IA)
-Um "assistente de memória" inteligente que pode:
-- **Organizar Fotos Automaticamente:** Categorização e sugestões inteligentes.
-- **Criar Textos:** Gerar descrições poéticas ou resumos com base nas suas memórias.
-- **Resumo da Vida:** Criar um resumo da sua jornada de vida.
-- **Vídeos de Homenagem:** Gerar vídeos comemorativos a partir de suas fotos e vídeos.
-
-### 6. Caixa do Futuro
-Envie mensagens para o seu "eu" do futuro, com a opção de definir uma data específica para a abertura da mensagem (ex: daqui a 10 anos).
-
-### 7. Memórias de Pessoas que Partiram
-Um memorial digital para homenagear entes queridos, com fotos, histórias, mensagens e datas importantes.
-
-## Tecnologias Utilizadas
-
-### Backend
-- **Linguagem:** Node.js
-- **Framework:** Express.js
-- **Base de Dados:** PostgreSQL
-- **Autenticação:** JWT (JSON Web Tokens)
-
-### Frontend
-- **Framework:** React
-- **Estilização:** Tailwind CSS
-- **Animações:** Framer Motion
-- **Roteamento:** React Router DOM
-
-## Estrutura do Projeto
-
-```
-luko-social/
-├── backend/                # Servidor Node.js (Express)
-│   ├── src/
-│   │   ├── config/         # Configurações (DB, etc.)
-│   │   ├── controllers/    # Lógica de negócio
-│   │   ├── middleware/     # Middlewares de autenticação, etc.
-│   │   ├── models/         # Modelos de dados (interação com DB)
-│   │   ├── routes/         # Definição de rotas da API
-│   │   └── server.js       # Ponto de entrada do servidor
-│   └── package.json
-├── frontend/               # Aplicação React
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── hooks/
-│   │   ├── pages/          # Páginas da aplicação
-│   │   ├── services/
-│   │   └── styles/
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js
-│   └── vite.config.js
-├── .env.example            # Exemplo de variáveis de ambiente
-├── README.md               # Este ficheiro
-└── ... (outros ficheiros do repositório original)
-```
-
-## Como Configurar e Executar (Desenvolvimento)
-
-### Pré-requisitos
-- Node.js (v18 ou superior)
-- npm ou yarn
-- PostgreSQL
-
-### 1. Clonar o Repositório
-```bash
-git clone https://github.com/fernandolukoki94-beep/luko-social.git
-cd luko-social
-```
-
-### 2. Configurar o Backend
-```bash
-cd backend
-npm install
-cp ../.env.example .env
-# Edite o ficheiro .env com as suas credenciais do PostgreSQL e JWT_SECRET
-# Execute o script SQL em src/config/schema.sql para criar as tabelas no seu DB
-npm run dev
-```
-
-### 3. Configurar o Frontend
-```bash
-cd ../frontend
-npm install
-npm run dev
-```
-
-O frontend estará disponível em `http://localhost:5173` e o backend em `http://localhost:3001`.
-
-## Contribuição
-
-Contribuições são bem-vindas! Por favor, leia o `CONTRIBUTING.md` para mais detalhes sobre como contribuir para este projeto.
-
-## Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o ficheiro `LICENSE` para mais detalhes.
+Bem-vindo ao **Luko MemoryOS**, uma plataforma ambiciosa desenhada para ser o "cofre digital" definitivo. Aqui, cada pessoa pode guardar e reviver seus momentos, histórias e sentimentos mais preciosos de forma segura, rica e interativa.
 
 ---
 
-**MemoryOS — Your Digital Life Archive**
+## 🌟 Visão Geral
 
-*Um projeto de Fernando Lukoki*
+O **MemoryOS** combina o poder da tecnologia moderna com a profundidade das emoções humanas. É mais do que um diário; é um arquivo de vida digital que utiliza Inteligência Artificial para transformar memórias comuns em narrativas poéticas e homenagens duradouras.
+
+## 🚀 Stack Utilizada
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Banco de Dados:** PostgreSQL
+- **Autenticação:** JWT (JSON Web Tokens) com bcryptjs
+- **Segurança:** AES-256-GCM para criptografia de dados sensíveis
+
+### Frontend
+- **Framework:** React + TypeScript
+- **Estilização:** Tailwind CSS
+- **Animações:** Framer Motion
+- **Ícones:** Lucide React
+- **Roteamento:** Wouter
+
+---
+
+## ✨ Funcionalidades Principais
+
+### 1. 🔐 Cofre de Memórias Criptografado
+Sistema de criptografia de ponta a ponta para memórias sensíveis. Seus segredos e momentos mais íntimos estão protegidos por algoritmos de nível bancário.
+
+### 2. 🤖 Memory AI (Assistente Inteligente)
+- **Transformação Poética:** Transforma descrições simples em textos líricos.
+- **Resumo de Vida:** Cria resumos automáticos de períodos da sua jornada.
+- **Análise de Sentimento:** Identifica as emoções predominantes nas suas memórias.
+- **Homenagens:** Gera tributos especiais para entes queridos.
+
+### 3. 👤 Perfil: Biografia Viva
+Visualize sua vida através de uma timeline interativa que organiza eventos históricos e memórias pessoais em uma narrativa cronológica contínua.
+
+### 4. 🔒 Privacidade Total
+Controle granular sobre quem pode ver suas memórias:
+- **Privada:** Apenas para seus olhos.
+- **Família:** Compartilhe com o círculo íntimo.
+- **Pública:** Transforme suas histórias em inspiração para outros.
+
+### 5. 📦 Caixa do Futuro
+Envie mensagens e memórias para o seu "eu" do futuro, programadas para abrir em datas específicas.
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+luko-memoryos/
+├── backend/                # Servidor Node.js (Arquitetura Modular)
+│   ├── src/
+│   │   ├── auth/           # Autenticação e Sessões
+│   │   ├── users/          # Gestão de Usuários
+│   │   ├── memories/       # Core: Gestão de Memórias
+│   │   ├── ai/             # Integração com LLMs
+│   │   ├── life-events/    # Timeline e Biografia
+│   │   └── config/         # Configurações globais
+├── client/                 # Aplicação React + TypeScript
+│   ├── src/
+│   │   ├── components/     # Componentes UI reutilizáveis
+│   │   ├── pages/          # Páginas da aplicação
+│   │   ├── contexts/       # Gerenciamento de estado global
+│   │   └── hooks/          # Hooks customizados
+└── docs/                   # Documentação e Assets Visuais
+```
+
+---
+
+## 🗺️ Roadmap de Funcionalidades Premium
+
+- [ ] **Memory Map 🌍:** Visualize geograficamente onde suas memórias aconteceram.
+- [ ] **Family Tree 🌳:** Árvore genealógica interativa integrada com histórias de vida.
+- [ ] **Life Book 📖:** Exporte sua jornada de vida para um livro digital em PDF com design premium.
+- [ ] **Suporte Multi-mídia:** Armazenamento seguro de áudio de alta fidelidade e vídeos 4K.
+- [ ] **App Mobile Nativo:** Versão para Android e iOS com notificações push.
+
+---
+
+## 🛠️ Como Configurar e Executar
+
+### Pré-requisitos
+- Node.js (v18+)
+- PostgreSQL
+- OpenAI API Key (para funcionalidades de IA)
+
+### 1. Clonar e Instalar
+```bash
+git clone https://github.com/fernandolukoki94-beep/luko-memoryos.git
+cd luko-memoryos
+```
+
+### 2. Configurar Variáveis
+Copie o arquivo `.env.example` para `.env` e preencha as suas credenciais.
+
+### 3. Executar
+```bash
+# Backend
+cd backend
+npm install
+npm run dev
+
+# Frontend
+cd ../client
+npm install
+npm run dev
+```
+
+---
+
+## 🤝 Contribuição
+
+Contribuições são o que tornam a comunidade open source um lugar incrível para aprender, inspirar e criar. Qualquer contribuição que você fizer será **muito apreciada**.
+
+## 📄 Licença
+
+Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+---
+
+**MemoryOS — Preserve sua essência.**
+*Desenvolvido por Fernando Lukoki*

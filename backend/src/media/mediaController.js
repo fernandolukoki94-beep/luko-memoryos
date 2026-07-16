@@ -1,4 +1,4 @@
-const Media = require("../models/Media");
+const Media = require("./Media");
 
 exports.createMedia = async (req, res) => {
   const { memory_id, tipo, arquivo_url } = req.body;

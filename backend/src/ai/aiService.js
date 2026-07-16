@@ -3,7 +3,7 @@
  * Integra com LLM para criar conteúdo poético, resumos e homenagens
  */
 
-const MemoryAITransformation = require("../models/MemoryAITransformation");
+const MemoryAITransformation = require("./MemoryAITransformation");
 
 class AIService {
   constructor() {

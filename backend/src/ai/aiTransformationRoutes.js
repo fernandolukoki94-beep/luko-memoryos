@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const aiTransformationController = require("../controllers/aiTransformationController");
-const auth = require("../middleware/auth");
+const aiTransformationController = require("./aiTransformationController");
+const auth = require("../auth/auth");
 
 // Transformar memória em texto poético
 router.post("/:memoryId/poetic", auth, aiTransformationController.transformToPoetic);

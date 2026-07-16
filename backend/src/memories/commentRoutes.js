@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const commentController = require("../controllers/commentController");
-const auth = require("../middleware/auth");
+const commentController = require("./commentController");
+const auth = require("../auth/auth");
 
 router.post("/", auth, commentController.createComment);
 router.get("/memory/:memoryId", auth, commentController.getCommentsByMemory);

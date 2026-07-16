@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const futureMessageController = require("../controllers/futureMessageController");
-const auth = require("../middleware/auth");
+const futureMessageController = require("./futureMessageController");
+const auth = require("../auth/auth");
 
 router.post("/", auth, futureMessageController.createFutureMessage);
 router.get("/user/:userId", auth, futureMessageController.getFutureMessagesByUser);

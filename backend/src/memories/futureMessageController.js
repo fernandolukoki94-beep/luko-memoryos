@@ -1,4 +1,4 @@
-const FutureMessage = require("../models/FutureMessage");
+const FutureMessage = require("./FutureMessage");
 
 exports.createFutureMessage = async (req, res) => {
   const { mensagem, data_abertura } = req.body;

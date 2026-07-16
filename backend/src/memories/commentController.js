@@ -1,4 +1,4 @@
-const Comment = require("../models/Comment");
+const Comment = require("./Comment");
 
 exports.createComment = async (req, res) => {
   const { memory_id, texto } = req.body;
