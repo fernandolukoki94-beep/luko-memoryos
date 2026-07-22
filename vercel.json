@@ -1,9 +1,8 @@
 {
   "version": 2,
-  "name": "luko-memoryos",
+  "rootDirectory": "client",
   "framework": "vite",
   "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
