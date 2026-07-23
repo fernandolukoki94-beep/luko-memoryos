@@ -2,9 +2,11 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Heart, Lock, Zap, Users, Archive, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LandingPage() {
   const [, setLocation] = useLocation();
+  const { currentUser } = useAuth();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -135,19 +137,30 @@ export default function LandingPage() {
               </span>
             </motion.div>
             <div className="flex gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => setLocation("/auth")}
-                className="text-white hover:bg-white/10"
-              >
-                Login
-              </Button>
-              <Button
-                onClick={() => setLocation("/auth")}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-              >
-                Começar
-              </Button>
+              {currentUser ? (
+                <Button
+                  onClick={() => setLocation("/home")}
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                >
+                  Ir para Home
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setLocation("/auth")}
+                    className="text-white hover:bg-white/10"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    onClick={() => setLocation("/auth")}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                  >
+                    Começar
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </nav>
@@ -188,12 +201,12 @@ export default function LandingPage() {
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Button
-                onClick={() => setLocation("/auth")}
+                onClick={() => setLocation(currentUser ? "/home" : "/auth")}
                 size="lg"
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold text-lg px-8 py-6"
               >
                 <Heart className="mr-2 w-5 h-5" />
-                Começar Minha Jornada
+                {currentUser ? "Continuar Minha Jornada" : "Começar Minha Jornada"}
               </Button>
               <Button
                 variant="outline"
@@ -281,11 +294,11 @@ export default function LandingPage() {
               Crie sua conta gratuitamente e comece a guardar suas memórias hoje mesmo.
             </p>
             <Button
-              onClick={() => setLocation("/auth")}
+              onClick={() => setLocation(currentUser ? "/home" : "/auth")}
               size="lg"
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold text-lg px-8 py-6"
             >
-              Criar Conta Agora
+              {currentUser ? "Aceder ao Meu Painel" : "Criar Conta Agora"}
             </Button>
           </motion.div>
         </section>

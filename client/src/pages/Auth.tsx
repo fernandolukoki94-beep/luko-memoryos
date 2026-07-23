@@ -31,7 +31,7 @@ export default function Auth() {
         await login(email, password);
         toast.success("Bem-vindo de volta!");
       }
-      setLocation("/");
+      setLocation("/home");
     } catch (error: any) {
       toast.error(error.message || "Erro na autenticação");
     } finally {
