@@ -1,10 +1,19 @@
-Diagnóstico Técnico:
-1. Erro Inicial: "useAuth deve ser usado dentro do AuthProvider". Corrigido envolvendo o Router com AuthProvider em client/src/App.tsx.
-2. Problema de Deploy: O Vercel estava exibindo o código-fonte (server/index.ts) em vez de servir o frontend.
-3. Causa: Conflito entre a estrutura de monorepo e as configurações do Vercel. O Vite estava configurado para fazer build em dist/public, mas o servidor Node esperava os arquivos em outro lugar.
-4. Correção Aplicada:
-   - Simplificação do build no package.json (apenas vite build).
-   - Ajuste do outDir no vite.config.ts para 'dist'.
-   - Criação de vercel.json com rewrites para SPA.
-   - Remoção de scripts de analytics quebrados no index.html.
-5. Estado Atual: Aguardando propagação do deploy final com vercel.json minimalista.
+MemoryOS - Resumo de Atualização Profissional
+===========================================
+
+1. ERROS CORRIGIDOS:
+- useAuth Context: O AuthProvider agora envolve corretamente toda a aplicação no App.tsx.
+- Redirecionamento Infinito: O utilizador agora é enviado para /home após login, e a Landing Page detecta sessões ativas.
+- Persistência: Criado o MemoriesContext para gerir memórias via localStorage.
+- Títulos: Todos os ficheiros index.html foram atualizados para "MemoryOS: O Teu Cofre de Memórias".
+
+2. NOVAS FUNCIONALIDADES IMPLEMENTADAS:
+- Cofre Privado (Vault): Página protegida por PIN (padrão: 1234) para memórias privadas.
+- Memory AI Chat: Interface de chat para interagir com um assistente inteligente baseado nas memórias.
+- Timeline Dinâmica: A linha do tempo agora lê e exibe memórias reais em ordem cronológica.
+- Dashboard Profissional: Home.tsx totalmente remodelada com estatísticas e resumo de memórias.
+- Perfil Profissional: Profile.tsx atualizado com design moderno e edição de bio.
+
+3. ESTRUTURA DE DEPLOY:
+- vercel.json configurado para Single Page Application (SPA).
+- vite.config.ts ajustado para suportar o index.html na raiz.
