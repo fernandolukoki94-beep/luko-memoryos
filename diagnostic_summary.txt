@@ -1,0 +1,10 @@
+Diagnóstico Técnico:
+1. Erro Inicial: "useAuth deve ser usado dentro do AuthProvider". Corrigido envolvendo o Router com AuthProvider em client/src/App.tsx.
+2. Problema de Deploy: O Vercel estava exibindo o código-fonte (server/index.ts) em vez de servir o frontend.
+3. Causa: Conflito entre a estrutura de monorepo e as configurações do Vercel. O Vite estava configurado para fazer build em dist/public, mas o servidor Node esperava os arquivos em outro lugar.
+4. Correção Aplicada:
+   - Simplificação do build no package.json (apenas vite build).
+   - Ajuste do outDir no vite.config.ts para 'dist'.
+   - Criação de vercel.json com rewrites para SPA.
+   - Remoção de scripts de analytics quebrados no index.html.
+5. Estado Atual: Aguardando propagação do deploy final com vercel.json minimalista.

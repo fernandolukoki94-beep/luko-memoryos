@@ -6,12 +6,15 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { MemoriesProvider } from "./contexts/MemoriesContext";
 import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import ProfileTimeline from "./pages/ProfileTimeline";
 import Feed from "./pages/Feed";
+import Vault from "./pages/Vault";
+import Chat from "./pages/Chat";
 
 
 function Router() {
@@ -24,6 +27,8 @@ function Router() {
       <Route path={"/profile/:id"} component={Profile} />
       <Route path={"/timeline/:id"} component={ProfileTimeline} />
       <Route path={"/feed"} component={Feed} />
+      <Route path={"/vault"} component={Vault} />
+      <Route path={"/chat"} component={Chat} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -40,15 +45,17 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <ThemeProvider
-          defaultTheme="light"
-          // switchable
-        >
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </ThemeProvider>
+        <MemoriesProvider>
+          <ThemeProvider
+            defaultTheme="light"
+            // switchable
+          >
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </ThemeProvider>
+        </MemoriesProvider>
       </AuthProvider>
     </ErrorBoundary>
   );
