@@ -167,7 +167,7 @@ Responda apenas com a descrição visual, sem explicações adicionais.`;
           Authorization: `Bearer ${this.apiKey}`,
         },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
+          model: process.env.AI_MODEL || "gpt-4.1-mini",
           messages: [
             {
               role: "system",
@@ -189,6 +189,9 @@ Responda apenas com a descrição visual, sem explicações adicionais.`;
       }
 
       const data = await response.json();
+      if (!data.choices || data.choices.length === 0) {
+        throw new Error("No choices returned from AI");
+      }
       return data.choices[0].message.content.trim();
     } catch (error) {
       console.error("Erro ao chamar LLM:", error);
@@ -206,7 +209,7 @@ Responda apenas com a descrição visual, sem explicações adicionais.`;
         tipo,
         conteudo_original,
         conteudo_transformado,
-        modelo_ia: "gpt-3.5-turbo",
+        modelo_ia: process.env.AI_MODEL || "gpt-4.1-mini",
       });
       return transformation;
     } catch (error) {
