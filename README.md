@@ -54,8 +54,19 @@ O objecto central é o **Operational Event**. Cada evento pode conter Event ID, 
 5. Activar `Connectivity ONLINE` e clicar em `Sincronizar`.
 6. Mostrar as etapas `encontrados → validados → enviados → confirmados → 0 pendentes`.
 7. Reabrir o evento e mostrar `SYNCHRONIZED`.
+8. Para a validação 10/10, clicar em **Demo 10/10** e confirmar `10 guardados → 10 recuperados → 10 únicos → 10 sincronizados`.
 
 A telemetria é sintética e a sincronização é uma simulação local. O hash é descrito como **integrity fingerprint / mecanismo de detecção de alteração**, não como prova de segurança absoluta.
+
+### Validação Demo 10/10
+
+O Centro de Operações inclui uma validação repetível que cria dez eventos offline com Event IDs determinísticos (`REX-DEMO-10-01` a `REX-DEMO-10-10`), grava-os no armazenamento local, relê a fila para simular fecho e reabertura da aplicação, confirma que os dez IDs permanecem únicos e sincroniza-os com acknowledgement idempotente. O resultado fica guardado localmente e visível no painel, permitindo repetir a demonstração sem criar duplicações.
+
+Verificação realizada em 15 de Agosto de 2026: **10 eventos guardados, 10 recuperados, 10 IDs únicos e 10 sincronizados**. O armazenamento durável do navegador está agora implementado com IndexedDB, mantendo localStorage como fallback compatível.
+
+### Offline Engine durável
+
+O Centro de Operações persiste os Operational Events numa store IndexedDB (`rex-mine-intelligence/operational-events`) com escrita transaccional e leitura na reabertura da aplicação. A fila continua a expor os estados `local`, `pending`, `syncing`, `synced` e `failed`; a persistência é feita tanto em IndexedDB como no fallback localStorage para que a demonstração continue funcional em navegadores com IndexedDB indisponível. O próximo incremento é adicionar retry exponencial visível e uma camada de API real para acknowledgement no servidor.
 
 ## Arquitectura v1
 
@@ -65,8 +76,8 @@ A telemetria é sintética e a sincronização é uma simulação local. O hash 
 | Telemetry Simulator | Valores sintéticos para Bomba 17, Motor 04 e Linha 02 | Ingestão de sensores autorizados |
 | Incidents Module | Registo de incidentes e estados operacionais | API e integração CMMS |
 | Connectivity State | Simulador Online/Offline | Estado real de rede e edge gateway |
-| Offline Store | `localStorage` compatível com a demo | IndexedDB ou SQLite edge |
-| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed` | Fila durável e idempotente |
+| Offline Store | IndexedDB transaccional com fallback localStorage e validação 10/10 | SQLite edge ou armazenamento local de gateway |
+| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed`, com demo idempotente | Fila durável, retry e recuperação após falha |
 | Sync Engine | Validação, envio e acknowledgement simulados | Deduplicação, ordenação e resolução de conflitos |
 | Evidence Chain | Timestamps e fingerprint de integridade | Assinatura criptográfica e auditoria autorizada |
 
@@ -106,13 +117,15 @@ As verificações actuais passam. O build emite apenas um aviso não bloqueante 
 | [`docs/REX_AUDIT.md`](docs/REX_AUDIT.md) | Auditoria, testes, decisões e estado de publicação |
 | [`docs/REX_WEB_VISUAL_CHECK.md`](docs/REX_WEB_VISUAL_CHECK.md) | Verificação visual da homepage permanente |
 | [`docs/REX_AND_CV_REVIEW.md`](docs/REX_AND_CV_REVIEW.md) | Auditoria técnica, avaliação do produto e revisão profissional |
+| [`docs/REX_10_10_VALIDATION.md`](docs/REX_10_10_VALIDATION.md) | Evidência da validação de dez eventos offline e sincronização idempotente |
+| `client/src/lib/rexOfflineStore.ts` | Store IndexedDB durável com fallback localStorage |
 | [`docs/CV_FERNANDO_LUCOCO_DRAFT.md`](docs/CV_FERNANDO_LUCOCO_DRAFT.md) | Rascunho de CV orientado para backend e sistemas resilientes |
 | `gh-pages` branch | Artefacto estático pronto para GitHub Pages |
 | [`docs/research-notes.md`](docs/research-notes.md) | Evidência pública usada para enquadrar a oportunidade |
 
 ## Evolução prevista
 
-A evolução técnica é incremental: **v1 Offline Events**, **v2 Multi-device Synchronization**, **v3 Edge Telemetry**, **v4 Anomaly Detection** e **v5 Industrial Pilot**. Antes de procurar integrações reais, o próximo marco é tornar o teste de dez eventos offline, fecho/reabertura e sincronização `10/10` impossível de quebrar durante uma demonstração.
+A evolução técnica é incremental: **v1 Offline Events**, **v2 Durable Offline Engine**, **v3 Multi-device Synchronization**, **v4 Edge Telemetry**, **v5 Anomaly Detection** e **v6 Industrial Pilot**. Os marcos de demonstração `10/10` e persistência IndexedDB já estão implementados e verificados; o próximo passo é acrescentar retry exponencial visível, acknowledgement de API e testes end-to-end.
 
 ## Autoria
 

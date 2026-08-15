@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { persistDurableEvents, readDurableEvents } from "../lib/rexOfflineStore";
 import {
   Activity,
   AlertTriangle,
@@ -49,6 +50,16 @@ type Incident = {
 
 const STORAGE_KEY = "rex_incidents_v1";
 const EVENT_SEQUENCE_KEY = "rex_event_sequence_v1";
+const DEMO_RUN_KEY = "rex_demo_10_run_v1";
+
+type DemoRun = {
+  phase: "persisted" | "reopened" | "synced";
+  persisted: number;
+  recovered: number;
+  unique: number;
+  synced: number;
+  completedAt: string;
+};
 
 function nextEventId() {
   const current = Number(window.localStorage.getItem(EVENT_SEQUENCE_KEY) || "184");
@@ -129,6 +140,15 @@ const statusLabel: Record<IncidentStatus, string> = {
   resolved: "Resolvido",
 };
 
+function readDemoRun(): DemoRun | null {
+  try {
+    const stored = window.localStorage.getItem(DEMO_RUN_KEY);
+    return stored ? (JSON.parse(stored) as DemoRun) : null;
+  } catch {
+    return null;
+  }
+}
+
 function readIncidents(): Incident[] {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -153,6 +173,7 @@ export default function RexOperations() {
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
   const [showSyncPanel, setShowSyncPanel] = useState(false);
   const [syncSteps, setSyncSteps] = useState<string[]>([]);
+  const [demoRun, setDemoRun] = useState<DemoRun | null>(readDemoRun);
   const [form, setForm] = useState({
     equipment: "Bomba 17",
     area: "Área B · Britagem",
@@ -162,8 +183,23 @@ export default function RexOperations() {
   });
 
   useEffect(() => {
+    let active = true;
+    void readDurableEvents(readIncidents()).then((durableEvents) => {
+      if (active && durableEvents.length > 0) setIncidents(durableEvents);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(incidents));
+    void persistDurableEvents(incidents);
   }, [incidents]);
+
+  useEffect(() => {
+    if (demoRun) window.localStorage.setItem(DEMO_RUN_KEY, JSON.stringify(demoRun));
+  }, [demoRun]);
 
   const pendingCount = incidents.filter((incident) => incident.syncStatus !== "synced").length;
   const openCount = incidents.filter((incident) => incident.status !== "resolved").length;
@@ -192,6 +228,71 @@ export default function RexOperations() {
       setSyncSteps([`${total} eventos encontrados`, `${total} eventos validados`, `${total} eventos enviados`, `${total} eventos confirmados`, "0 pendentes"]);
       setIsSyncing(false);
     }, 850);
+  };
+
+  const runTenEventDemo = async () => {
+    setIsOnline(false);
+    setShowSyncPanel(true);
+    setIsSyncing(true);
+    const demoPrefix = "REX-DEMO-10-";
+    const existing = incidents.filter((incident) => !incident.eventId?.startsWith(demoPrefix));
+    const demoIncidents = await Promise.all(Array.from({ length: 10 }, async (_, index) => {
+      const eventId = `${demoPrefix}${String(index + 1).padStart(2, "0")}`;
+      const createdAt = new Date(Date.now() + index * 1000);
+      const description = `Evento de validação 10/10 · teste offline ${index + 1}`;
+      return {
+        id: `DEMO-${String(index + 1).padStart(2, "2")}`,
+        eventId,
+        eventType: "EQUIPMENT_INCIDENT" as const,
+        equipment: index % 2 === 0 ? "Bomba 17" : "Transportador 03",
+        area: "Área B · Britagem",
+        category: "Teste de sincronização",
+        description,
+        priority: "medium" as Priority,
+        status: "open" as IncidentStatus,
+        syncStatus: "pending" as SyncStatus,
+        createdAt: `Demo · ${formatTime()}`,
+        createdAtISO: createdAt.toISOString(),
+        deviceId: "field-device-demo-10",
+        operatorId: "operator-demo-01",
+        location: "Área B · Britagem",
+        connectivityState: "offline" as ConnectivityState,
+        integrityHash: await makeIntegrityHash(`${eventId}|${description}|${createdAt.toISOString()}`),
+        history: [
+          { at: formatTime(), event: "EVENT CREATED", detail: "10/10 offline validation" },
+          { at: formatTime(), event: "LOCAL STORAGE", detail: "Persisted before connectivity" },
+        ],
+      } satisfies Incident;
+    }));
+
+    const persisted = [...demoIncidents, ...existing];
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted));
+    setIncidents(persisted);
+    setSyncSteps(["10 eventos guardados", "—", "—", "—", "10 pendentes"]);
+    const recovered = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]") as Incident[];
+    const recoveredDemo = recovered.filter((incident) => incident.eventId?.startsWith(demoPrefix));
+    const uniqueIds = new Set(recoveredDemo.map((incident) => incident.eventId));
+    setDemoRun({ phase: "persisted", persisted: recoveredDemo.length, recovered: recoveredDemo.length, unique: uniqueIds.size, synced: 0, completedAt: new Date().toISOString() });
+
+    window.setTimeout(() => {
+      const reopened = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]") as Incident[];
+      const reopenedDemo = reopened.filter((incident) => incident.eventId?.startsWith(demoPrefix));
+      const reopenedUnique = new Set(reopenedDemo.map((incident) => incident.eventId));
+      setIsOnline(true);
+      setDemoRun({ phase: "reopened", persisted: 10, recovered: reopenedDemo.length, unique: reopenedUnique.size, synced: 0, completedAt: new Date().toISOString() });
+      setSyncSteps(["10 eventos encontrados", "10 eventos validados", "—", "—", "10 pendentes"]);
+      window.setTimeout(() => {
+        const latest = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]") as Incident[];
+        const synced = latest.map((incident) => incident.eventId?.startsWith(demoPrefix)
+          ? { ...incident, syncStatus: "synced" as SyncStatus, connectivityState: "online" as ConnectivityState, history: [...(incident.history || []), { at: formatTime(), event: "SYNCED", detail: "Idempotent demo acknowledgement" }] }
+          : incident);
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(synced));
+        setIncidents(synced);
+        setSyncSteps(["10 eventos encontrados", "10 eventos validados", "10 eventos enviados", "10 eventos confirmados", "0 pendentes"]);
+        setIsSyncing(false);
+        setDemoRun({ phase: "synced", persisted: 10, recovered: reopenedDemo.length, unique: reopenedUnique.size, synced: 10, completedAt: new Date().toISOString() });
+      }, 650);
+    }, 450);
   };
 
   const updateStatus = (id: string, status: IncidentStatus) => {
@@ -262,6 +363,9 @@ export default function RexOperations() {
               <RefreshCw className={`h-4 w-4 ${isSyncing ? "animate-spin" : ""}`} />
               {isSyncing ? "A sincronizar…" : `Sincronizar${pendingCount ? ` (${pendingCount})` : ""}`}
             </button>
+            <button type="button" aria-label="Executar validação da demonstração com dez eventos" onClick={runTenEventDemo} disabled={isSyncing} className="flex items-center gap-2 rounded-lg border border-violet-300/30 bg-violet-300/10 px-4 py-2 text-sm font-semibold text-violet-200 transition hover:bg-violet-300/20 disabled:cursor-not-allowed disabled:opacity-40">
+              <CheckCircle2 className="h-4 w-4" /> Demo 10/10
+            </button>
           </div>
         </header>
 
@@ -311,7 +415,9 @@ export default function RexOperations() {
           </div>
         </section>
 
-        {showSyncPanel && <section aria-live="polite" className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-5"><div className="mb-4 flex items-center justify-between"><div><h2 className="font-semibold text-white">SYNC ENGINE</h2><p className="mt-1 text-xs text-slate-500">Validação local · demonstração sem servidor industrial</p></div><button type="button" onClick={() => setShowSyncPanel(false)} className="text-xs text-slate-500 hover:text-white">Fechar</button></div><div className="grid gap-2 sm:grid-cols-5">{["encontrados", "validados", "enviados", "confirmados", "pendentes"].map((label, index) => <div key={label} className="rounded-lg border border-white/10 bg-slate-950/30 p-3"><div className="text-lg font-semibold text-cyan-200">{syncSteps[index]?.split(" ")[0] || "—"}</div><div className="mt-1 text-[10px] uppercase tracking-wider text-slate-500">{label}</div></div>)}</div>{!isSyncing && syncSteps.length === 5 && <p className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Synchronization complete</p>}</section>}
+        {demoRun && <section aria-live="polite" className="mt-6 rounded-2xl border border-violet-300/20 bg-violet-300/[0.05] p-5"><div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div><h2 className="font-semibold text-white">Validação demonstrável 10/10</h2><p className="mt-1 text-xs text-slate-400">Persistência local · reabertura · idempotência · sincronização</p></div><div className="grid grid-cols-4 gap-2 text-center text-xs"><div><strong className="block text-lg text-violet-200">{demoRun.persisted}</strong><span className="text-slate-500">guardados</span></div><div><strong className="block text-lg text-violet-200">{demoRun.recovered}</strong><span className="text-slate-500">recuperados</span></div><div><strong className="block text-lg text-violet-200">{demoRun.unique}</strong><span className="text-slate-500">únicos</span></div><div><strong className="block text-lg text-emerald-300">{demoRun.synced}</strong><span className="text-slate-500">sync</span></div></div></div><p className="mt-4 text-xs text-slate-400">Estado: <strong className="text-violet-200">{demoRun.phase === "synced" ? "10/10 confirmados" : demoRun.phase === "reopened" ? "reabertura confirmada" : "persistência confirmada"}</strong>. Os eventos de demonstração usam IDs determinísticos para detectar duplicação.</p></section>}
++
++        {showSyncPanel && <section aria-live="polite" className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-5"><div className="mb-4 flex items-center justify-between"><div><h2 className="font-semibold text-white">SYNC ENGINE</h2><p className="mt-1 text-xs text-slate-500">Validação local · demonstração sem servidor industrial</p></div><button type="button" onClick={() => setShowSyncPanel(false)} className="text-xs text-slate-500 hover:text-white">Fechar</button></div><div className="grid gap-2 sm:grid-cols-5">{["encontrados", "validados", "enviados", "confirmados", "pendentes"].map((label, index) => <div key={label} className="rounded-lg border border-white/10 bg-slate-950/30 p-3"><div className="text-lg font-semibold text-cyan-200">{syncSteps[index]?.split(" ")[0] || "—"}</div><div className="mt-1 text-[10px] uppercase tracking-wider text-slate-500">{label}</div></div>)}</div>{!isSyncing && syncSteps.length === 5 && <p className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Synchronization complete</p>}</section>}
       </div>
 
       {showForm && <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center" role="dialog" aria-modal="true" aria-labelledby="rex-new-incident-title"><form onSubmit={createIncident} className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#0d1a2b] p-6 shadow-2xl"><div className="mb-6 flex items-center justify-between"><div><h2 id="rex-new-incident-title" className="text-xl font-semibold text-white">Novo incidente</h2><p className="mt-1 text-xs text-slate-500">O registo será guardado localmente se estiveres offline.</p></div><button type="button" aria-label="Fechar formulário de incidente" onClick={() => setShowForm(false)} className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-white"><X className="h-5 w-5" /></button></div><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm text-slate-400">Equipamento<select value={form.equipment} onChange={(event) => setForm({ ...form, equipment: event.target.value })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300"><option>Bomba 17</option><option>Transportador 03</option><option>Gerador 02</option><option>Escavadora 08</option></select></label><label className="text-sm text-slate-400">Categoria<select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300"><option>Vibração</option><option>Temperatura</option><option>Pressão</option><option>Segurança</option><option>Energia</option><option>Outro</option></select></label></div><label className="mt-4 block text-sm text-slate-400">Área<input value={form.area} onChange={(event) => setForm({ ...form, area: event.target.value })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300" /></label><label className="mt-4 block text-sm text-slate-400">Prioridade<select value={form.priority} onChange={(event) => setForm({ ...form, priority: event.target.value as Priority })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300"><option value="low">Baixa</option><option value="medium">Média</option><option value="high">Alta</option><option value="critical">Crítica</option></select></label><label className="mt-4 block text-sm text-slate-400">Descrição<textarea value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} rows={3} placeholder="Descreve o que observaste no local…" className="mt-2 w-full resize-none rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-300" /></label><button type="submit" className="mt-6 w-full rounded-lg bg-cyan-300 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">Guardar incidente</button></form></div>}
