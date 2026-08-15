@@ -46,6 +46,9 @@ type Incident = {
   integrityHash?: string;
   evidence?: EvidenceEntry[];
   history?: EvidenceEntry[];
+  retryCount?: number;
+  nextRetryAt?: string;
+  lastSyncError?: string;
 };
 
 const STORAGE_KEY = "rex_incidents_v1";
@@ -202,6 +205,7 @@ export default function RexOperations() {
   }, [demoRun]);
 
   const pendingCount = incidents.filter((incident) => incident.syncStatus !== "synced").length;
+  const failedCount = incidents.filter((incident) => incident.syncStatus === "failed").length;
   const openCount = incidents.filter((incident) => incident.status !== "resolved").length;
   const criticalCount = incidents.filter((incident) => incident.priority === "critical").length;
 
@@ -217,17 +221,28 @@ export default function RexOperations() {
   const syncIncidents = () => {
     if (!isOnline || pendingCount === 0) return;
     const total = pendingCount;
+    const maxRetry = Math.max(...incidents.filter((incident) => incident.syncStatus !== "synced").map((incident) => incident.retryCount || 0), 0);
+    const retryDelay = Math.min(2000, 500 * (2 ** maxRetry));
     setIsSyncing(true);
     setShowSyncPanel(true);
-    setSyncSteps([`${total} eventos encontrados`]);
-      setIncidents((current) => current.map((incident) => (incident.syncStatus !== "synced" ? { ...incident, syncStatus: "syncing", history: [...(incident.history || []), { at: formatTime(), event: "SYNC STARTED", detail: "Connectivity available" }] } : incident)));
-    window.setTimeout(() => setSyncSteps([`${total} eventos encontrados`, `${total} eventos validados`]), 220);
-    window.setTimeout(() => setSyncSteps([`${total} eventos encontrados`, `${total} eventos validados`, `${total} eventos enviados`]), 440);
+    setSyncSteps([`${total} eventos encontrados`, `Retry policy · ${retryDelay}ms`, "—", "—", `${total} pendentes`]);
+      setIncidents((current) => current.map((incident) => (incident.syncStatus !== "synced" ? { ...incident, syncStatus: "syncing", nextRetryAt: new Date(Date.now() + retryDelay).toISOString(), history: [...(incident.history || []), { at: formatTime(), event: "SYNC STARTED", detail: `Connectivity available · backoff ${retryDelay}ms` }] } : incident)));
+    window.setTimeout(() => setSyncSteps([`${total} eventos encontrados`, `${total} eventos validados`, "—", "—", `${total} pendentes`]), Math.min(220, retryDelay));
+    window.setTimeout(() => setSyncSteps([`${total} eventos encontrados`, `${total} eventos validados`, `${total} eventos enviados`, "—", `${total} pendentes`]), Math.min(440, retryDelay + 220));
     window.setTimeout(() => {
-      setIncidents((current) => current.map((incident) => (incident.syncStatus === "syncing" ? { ...incident, syncStatus: "synced", history: [...(incident.history || []), { at: formatTime(), event: "VALIDATED", detail: "Event payload accepted" }, { at: formatTime(), event: "SENT", detail: "Local sync transport" }, { at: formatTime(), event: "ACKNOWLEDGED", detail: "Demonstração local" }, { at: formatTime(), event: "SYNCHRONIZED", detail: "Event is available in REX Operations" }] } : incident)));
+      setIncidents((current) => current.map((incident) => (incident.syncStatus === "syncing" ? { ...incident, syncStatus: "synced", nextRetryAt: undefined, lastSyncError: undefined, history: [...(incident.history || []), { at: formatTime(), event: "VALIDATED", detail: "Event payload accepted" }, { at: formatTime(), event: "SENT", detail: "Local sync transport" }, { at: formatTime(), event: "ACKNOWLEDGED", detail: "Demonstração local" }, { at: formatTime(), event: "SYNCHRONIZED", detail: "Event is available in REX Operations" }] } : incident)));
       setSyncSteps([`${total} eventos encontrados`, `${total} eventos validados`, `${total} eventos enviados`, `${total} eventos confirmados`, "0 pendentes"]);
       setIsSyncing(false);
-    }, 850);
+    }, Math.max(850, retryDelay + 350));
+  };
+
+  const retryFailedSync = () => {
+    if (!isOnline || failedCount === 0 || isSyncing) return;
+    const delay = Math.min(2000, 500 * (2 ** Math.max(...incidents.filter((incident) => incident.syncStatus === "failed").map((incident) => incident.retryCount || 0), 0)));
+    setIncidents((current) => current.map((incident) => incident.syncStatus === "failed" ? { ...incident, syncStatus: "pending", retryCount: (incident.retryCount || 0) + 1, lastSyncError: undefined, history: [...(incident.history || []), { at: formatTime(), event: "RETRY SCHEDULED", detail: `Manual retry · exponential backoff ${delay}ms` }] } : incident));
+    setShowSyncPanel(true);
+    setSyncSteps([`${failedCount} falhas seleccionadas`, `Retry em ${delay}ms`, "—", "—", `${failedCount} pendentes`]);
+    window.setTimeout(() => syncIncidents(), delay);
   };
 
   const runTenEventDemo = async () => {
@@ -363,6 +378,7 @@ export default function RexOperations() {
               <RefreshCw className={`h-4 w-4 ${isSyncing ? "animate-spin" : ""}`} />
               {isSyncing ? "A sincronizar…" : `Sincronizar${pendingCount ? ` (${pendingCount})` : ""}`}
             </button>
+            {failedCount > 0 && <button type="button" aria-label={`Repetir sincronização para ${failedCount} eventos com falha`} onClick={retryFailedSync} disabled={!isOnline || isSyncing} className="flex items-center gap-2 rounded-lg border border-amber-300/30 bg-amber-300/10 px-4 py-2 text-sm font-semibold text-amber-200 transition hover:bg-amber-300/20 disabled:cursor-not-allowed disabled:opacity-40"><RefreshCw className="h-4 w-4" /> Retry falhados ({failedCount})</button>}
             <button type="button" aria-label="Executar validação da demonstração com dez eventos" onClick={runTenEventDemo} disabled={isSyncing} className="flex items-center gap-2 rounded-lg border border-violet-300/30 bg-violet-300/10 px-4 py-2 text-sm font-semibold text-violet-200 transition hover:bg-violet-300/20 disabled:cursor-not-allowed disabled:opacity-40">
               <CheckCircle2 className="h-4 w-4" /> Demo 10/10
             </button>
@@ -417,7 +433,7 @@ export default function RexOperations() {
 
         {demoRun && <section aria-live="polite" className="mt-6 rounded-2xl border border-violet-300/20 bg-violet-300/[0.05] p-5"><div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div><h2 className="font-semibold text-white">Validação demonstrável 10/10</h2><p className="mt-1 text-xs text-slate-400">Persistência local · reabertura · idempotência · sincronização</p></div><div className="grid grid-cols-4 gap-2 text-center text-xs"><div><strong className="block text-lg text-violet-200">{demoRun.persisted}</strong><span className="text-slate-500">guardados</span></div><div><strong className="block text-lg text-violet-200">{demoRun.recovered}</strong><span className="text-slate-500">recuperados</span></div><div><strong className="block text-lg text-violet-200">{demoRun.unique}</strong><span className="text-slate-500">únicos</span></div><div><strong className="block text-lg text-emerald-300">{demoRun.synced}</strong><span className="text-slate-500">sync</span></div></div></div><p className="mt-4 text-xs text-slate-400">Estado: <strong className="text-violet-200">{demoRun.phase === "synced" ? "10/10 confirmados" : demoRun.phase === "reopened" ? "reabertura confirmada" : "persistência confirmada"}</strong>. Os eventos de demonstração usam IDs determinísticos para detectar duplicação.</p></section>}
 +
-+        {showSyncPanel && <section aria-live="polite" className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-5"><div className="mb-4 flex items-center justify-between"><div><h2 className="font-semibold text-white">SYNC ENGINE</h2><p className="mt-1 text-xs text-slate-500">Validação local · demonstração sem servidor industrial</p></div><button type="button" onClick={() => setShowSyncPanel(false)} className="text-xs text-slate-500 hover:text-white">Fechar</button></div><div className="grid gap-2 sm:grid-cols-5">{["encontrados", "validados", "enviados", "confirmados", "pendentes"].map((label, index) => <div key={label} className="rounded-lg border border-white/10 bg-slate-950/30 p-3"><div className="text-lg font-semibold text-cyan-200">{syncSteps[index]?.split(" ")[0] || "—"}</div><div className="mt-1 text-[10px] uppercase tracking-wider text-slate-500">{label}</div></div>)}</div>{!isSyncing && syncSteps.length === 5 && <p className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Synchronization complete</p>}</section>}
++        {showSyncPanel && <section aria-live="polite" className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.05] p-5"><div className="mb-4 flex items-center justify-between"><div><h2 className="font-semibold text-white">SYNC ENGINE</h2><p className="mt-1 text-xs text-slate-500">Validação local · retry exponencial 500ms → 1s → 2s · sem servidor industrial</p></div><button type="button" onClick={() => setShowSyncPanel(false)} className="text-xs text-slate-500 hover:text-white">Fechar</button></div><div className="grid gap-2 sm:grid-cols-5">{["encontrados", "validados", "enviados", "confirmados", "pendentes"].map((label, index) => <div key={label} className="rounded-lg border border-white/10 bg-slate-950/30 p-3"><div className="text-lg font-semibold text-cyan-200">{syncSteps[index]?.split(" ")[0] || "—"}</div><div className="mt-1 text-[10px] uppercase tracking-wider text-slate-500">{label}</div></div>)}</div>{!isSyncing && syncSteps.length === 5 && <p className="mt-4 flex items-center gap-2 text-sm font-medium text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Synchronization complete</p>}</section>}
       </div>
 
       {showForm && <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center" role="dialog" aria-modal="true" aria-labelledby="rex-new-incident-title"><form onSubmit={createIncident} className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#0d1a2b] p-6 shadow-2xl"><div className="mb-6 flex items-center justify-between"><div><h2 id="rex-new-incident-title" className="text-xl font-semibold text-white">Novo incidente</h2><p className="mt-1 text-xs text-slate-500">O registo será guardado localmente se estiveres offline.</p></div><button type="button" aria-label="Fechar formulário de incidente" onClick={() => setShowForm(false)} className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-white"><X className="h-5 w-5" /></button></div><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm text-slate-400">Equipamento<select value={form.equipment} onChange={(event) => setForm({ ...form, equipment: event.target.value })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300"><option>Bomba 17</option><option>Transportador 03</option><option>Gerador 02</option><option>Escavadora 08</option></select></label><label className="text-sm text-slate-400">Categoria<select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300"><option>Vibração</option><option>Temperatura</option><option>Pressão</option><option>Segurança</option><option>Energia</option><option>Outro</option></select></label></div><label className="mt-4 block text-sm text-slate-400">Área<input value={form.area} onChange={(event) => setForm({ ...form, area: event.target.value })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300" /></label><label className="mt-4 block text-sm text-slate-400">Prioridade<select value={form.priority} onChange={(event) => setForm({ ...form, priority: event.target.value as Priority })} className="mt-2 w-full rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-300"><option value="low">Baixa</option><option value="medium">Média</option><option value="high">Alta</option><option value="critical">Crítica</option></select></label><label className="mt-4 block text-sm text-slate-400">Descrição<textarea value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} rows={3} placeholder="Descreve o que observaste no local…" className="mt-2 w-full resize-none rounded-lg border border-white/10 bg-slate-950/50 px-3 py-2.5 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-300" /></label><button type="submit" className="mt-6 w-full rounded-lg bg-cyan-300 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">Guardar incidente</button></form></div>}
