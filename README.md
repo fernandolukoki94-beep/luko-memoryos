@@ -4,16 +4,18 @@
 
 O **REX Mine Intelligence** é uma prova técnica de engenharia para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
 
-O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas originais. O Centro de Operações REX está disponível em `/rex`.
+O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas originais. A homepage pública REX está em `/`, o Centro de Operações está em `/rex` e a landing original MemoryOS foi preservada em `/memoryos`.
 
 ## Acesso visual
 
 | Ambiente | Link | Estado |
 |---|---|---|
-| Demonstração local | `http://localhost:3000/rex` | Disponível após iniciar o projecto |
-| Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/rex) | Link temporário; pode expirar quando a sessão terminar |
+| Homepage local | `http://localhost:3000/` | Landing permanente REX |
+| Centro de Operações local | `http://localhost:3000/rex` | Fluxo offline → sync |
+| MemoryOS original | `http://localhost:3000/memoryos` | Preservado sem remoção |
+| Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/) | Link temporário; pode expirar quando a sessão terminar |
 | GitHub | [fernandolukoki94-beep/luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | Código e documentação publicados |
-| Vercel | A configurar | A conta autorizada devolveu HTTP 403 ao criar o primeiro deployment |
+| Vercel | A configurar | Deployment permanente aguarda permissões da equipa |
 
 Quando o deployment Vercel tiver permissões válidas, este README será actualizado com o URL público verificável. Não é apresentado um link fictício.
 
@@ -80,7 +82,7 @@ pnpm install
 pnpm dev --host 0.0.0.0
 ```
 
-Depois, abrir `http://localhost:3000/rex`. O MVP visual não requer API paga, Firebase, sensores, PostgreSQL, Redis ou credenciais corporativas.
+Depois, abrir `http://localhost:3000/` para a homepage REX ou `http://localhost:3000/rex` para o Centro de Operações. O MVP visual não requer API paga, Firebase, sensores, PostgreSQL, Redis ou credenciais corporativas.
 
 ## Verificações
 
@@ -99,6 +101,7 @@ As verificações actuais passam. O build emite apenas um aviso não bloqueante 
 | [`docs/REX_MVP_SPEC.md`](docs/REX_MVP_SPEC.md) | Especificação funcional e arquitectura do MVP |
 | [`docs/REX_DEMO_GUIDE.md`](docs/REX_DEMO_GUIDE.md) | Roteiro da demonstração de 120 segundos |
 | [`docs/REX_AUDIT.md`](docs/REX_AUDIT.md) | Auditoria, testes, decisões e estado de publicação |
+| [`docs/REX_WEB_VISUAL_CHECK.md`](docs/REX_WEB_VISUAL_CHECK.md) | Verificação visual da homepage permanente |
 | [`docs/research-notes.md`](docs/research-notes.md) | Evidência pública usada para enquadrar a oportunidade |
 
 ## Evolução prevista
