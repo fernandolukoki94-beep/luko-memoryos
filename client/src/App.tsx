@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { MemoriesProvider } from "./contexts/MemoriesContext";
 import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
+import RexLanding from "./pages/RexLanding";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import ProfileTimeline from "./pages/ProfileTimeline";
@@ -21,7 +22,8 @@ import RexOperations from "./pages/RexOperations";
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={LandingPage} />
+      <Route path={"/"} component={RexLanding} />
+      <Route path={"/memoryos"} component={LandingPage} />
       <Route path={"/home"} component={Home} />
       <Route path={"/game"} component={GamePage} />
       <Route path={"/auth"} component={Auth} />
