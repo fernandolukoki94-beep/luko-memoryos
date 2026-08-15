@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import GamePage from "@/pages/GamePage";
-import { Route, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -20,8 +20,11 @@ import RexOperations from "./pages/RexOperations";
 
 
 function Router() {
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
   return (
-    <Switch>
+    <WouterRouter base={basePath}>
+      <Switch>
       <Route path={"/"} component={RexLanding} />
       <Route path={"/memoryos"} component={LandingPage} />
       <Route path={"/home"} component={Home} />
@@ -35,8 +38,9 @@ function Router() {
       <Route path={"/rex"} component={RexOperations} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+        <Route component={NotFound} />
+      </Switch>
+    </WouterRouter>
   );
 }
 

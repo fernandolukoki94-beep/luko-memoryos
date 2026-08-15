@@ -206,6 +206,8 @@ function vitePluginStorageProxy(): Plugin {
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
 
 export default defineConfig({
+  // GitHub Pages serves this repository below /luko-memoryos/; Vercel and local dev use /.
+  base: process.env.GITHUB_ACTIONS ? "/luko-memoryos/" : "/",
   plugins,
   resolve: {
     alias: {
