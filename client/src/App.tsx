@@ -15,6 +15,7 @@ import ProfileTimeline from "./pages/ProfileTimeline";
 import Feed from "./pages/Feed";
 import Vault from "./pages/Vault";
 import Chat from "./pages/Chat";
+import RexOperations from "./pages/RexOperations";
 
 
 function Router() {
@@ -29,6 +30,7 @@ function Router() {
       <Route path={"/feed"} component={Feed} />
       <Route path={"/vault"} component={Vault} />
       <Route path={"/chat"} component={Chat} />
+      <Route path={"/rex"} component={RexOperations} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
