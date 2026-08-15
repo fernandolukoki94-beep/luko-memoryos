@@ -11,6 +11,7 @@ O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas
 | Ambiente | Link | Estado |
 |---|---|---|
 | Demonstração local | `http://localhost:3000/rex` | Disponível após iniciar o projecto |
+| Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/rex) | Link temporário; pode expirar quando a sessão terminar |
 | GitHub | [fernandolukoki94-beep/luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | Código e documentação publicados |
 | Vercel | A configurar | A conta autorizada devolveu HTTP 403 ao criar o primeiro deployment |
 
