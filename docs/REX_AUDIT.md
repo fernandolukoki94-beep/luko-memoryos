@@ -51,3 +51,9 @@ Em `CONNECTIVITY OFFLINE`, foi criado o evento `REX-EVT-2026-000184`. O registo 
 ## Teste completo de sincronização
 
 A ligação foi restaurada para `CONNECTIVITY ONLINE` e a sincronização foi executada. O painel mostrou `1 encontrados`, `1 validados`, `1 enviados`, `1 confirmados`, `0 pendentes` e `Synchronization complete`. O evento `REX-EVT-2026-000184` passou para `Sincronizado`. Este é o fluxo vertical demonstrável exigido pelo MVP.
+
+## Publicação
+
+Commit `bf6e4f7` (`feat: add REX offline-first mine operations MVP`) foi publicado com sucesso na branch `main` de `fernandolukoki94-beep/luko-memoryos`. A verificação local, o manifesto JSON e a busca por segredos reais passaram; os únicos resultados da busca são placeholders/documentação de `OPENAI_API_KEY` já existentes.
+
+Foi criado o projecto Vercel `rex-mine-intelligence`, mas o deployment foi recusado pela API com HTTP 403: a conta autorizada não tem permissão para criar um Production Deployment nesse projecto/equipa. A listagem posterior não expôs o projecto, indicando que a permissão da equipa precisa de ser corrigida no painel Vercel antes de repetir o deployment. Nenhuma alteração de código foi perdida por causa desse bloqueio.
