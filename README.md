@@ -20,6 +20,16 @@ O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas
 | GitHub Pages | [Abrir o website REX](https://fernandolukoki94-beep.github.io/luko-memoryos/) | Branch `gh-pages`; requer activar Pages nas definições do repositório |
 | Vercel | [Abrir o website REX](https://rex-mine-intelligence-web.vercel.app/) | Deployment READY verificado com HTTP 200 |
 
+### Repositórios do portfólio
+
+O REX está organizado em duas camadas públicas e complementares. Este repositório contém a experiência visual React/Vite, o Centro de Operações e a demonstração offline-first. O repositório [rex-os-observability](https://github.com/fernandolukoki94-beep/rex-os-observability) contém o Core Python/Flask, os contratos `OperationalEvent`, o `OfflineEventEngine`, os endpoints de telemetria mineira e os testes automatizados. O backend é uma implementação local/API-first; não é apresentado como servidor industrial público nem como integração com máquinas reais.
+
+| Camada | Repositório | Responsabilidade |
+|---|---|---|
+| Frontend e demonstração visual | [luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | REX Landing, `/rex`, MemoryOS original e IndexedDB offline |
+| Core backend e contratos | [rex-os-observability](https://github.com/fernandolukoki94-beep/rex-os-observability) | Flask/Python, eventos operacionais, telemetria sintética e testes |
+| Publicação visual | [Vercel](https://rex-mine-intelligence-web.vercel.app/) | Deployment web gratuito da demonstração |
+
 O artefacto web também está publicado na branch `gh-pages`. Para activar o URL permanente, em GitHub abra **Settings → Pages**, escolha **Deploy from a branch**, seleccione `gh-pages` e a pasta `/ (root)`, e guarde. A integração GitHub actual não possui permissão de administração de Pages para executar essa última definição via API. O URL esperado é [fernandolukoki94-beep.github.io/luko-memoryos](https://fernandolukoki94-beep.github.io/luko-memoryos/).
 
 O deployment Vercel está publicado em [rex-mine-intelligence-web.vercel.app](https://rex-mine-intelligence-web.vercel.app/). A homepage respondeu com HTTP 200 e `content-type: text/html`; o projecto Vercel é `rex-mine-intelligence-web`, com framework Vite. O URL Vercel é o acesso visual permanente principal; GitHub Pages e o preview temporário continuam como alternativas de demonstração.
