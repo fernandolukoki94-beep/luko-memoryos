@@ -1,133 +1,113 @@
-# 🧠 Luko MemoryOS
+# REX Mine Intelligence
 
-## O Cofre Digital da Sua Vida
+> **Offline-first operational intelligence for connected and disconnected field environments.**
 
-> Guarde momentos. Preserve histórias. Reviva emoções.
+O **REX Mine Intelligence** é uma prova técnica de engenharia para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
 
-Bem-vindo ao **Luko MemoryOS**, uma plataforma ambiciosa desenhada para ser o "cofre digital" definitivo. Aqui, cada pessoa pode guardar e reviver seus momentos, histórias e sentimentos mais preciosos de forma segura, rica e interativa.
+O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas originais. O Centro de Operações REX está disponível em `/rex`.
 
----
+## Acesso visual
 
-## 🌟 Visão Geral
+| Ambiente | Link | Estado |
+|---|---|---|
+| Demonstração local | `http://localhost:3000/rex` | Disponível após iniciar o projecto |
+| GitHub | [fernandolukoki94-beep/luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | Código e documentação publicados |
+| Vercel | A configurar | A conta autorizada devolveu HTTP 403 ao criar o primeiro deployment |
 
-O **MemoryOS** combina o poder da tecnologia moderna com a profundidade das emoções humanas. É mais do que um diário; é um arquivo de vida digital que utiliza Inteligência Artificial para transformar memórias comuns em narrativas poéticas e homenagens duradouras.
+Quando o deployment Vercel tiver permissões válidas, este README será actualizado com o URL público verificável. Não é apresentado um link fictício.
 
-## 🚀 Stack Utilizada
+## O fluxo v1
 
-### Backend
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Banco de Dados:** PostgreSQL
-- **Autenticação:** JWT (JSON Web Tokens) com bcryptjs
-- **Segurança:** AES-256-GCM para criptografia de dados sensíveis
-
-### Frontend
-- **Framework:** React + TypeScript
-- **Estilização:** Tailwind CSS
-- **Animações:** Framer Motion
-- **Ícones:** Lucide React
-- **Roteamento:** Wouter
-
----
-
-## ✨ Funcionalidades Principais
-
-### 1. 🔐 Cofre de Memórias Criptografado
-Sistema de criptografia de ponta a ponta para memórias sensíveis. Seus segredos e momentos mais íntimos estão protegidos por algoritmos de nível bancário.
-
-### 2. 🤖 Memory AI (Assistente Inteligente)
-- **Transformação Poética:** Transforma descrições simples em textos líricos.
-- **Resumo de Vida:** Cria resumos automáticos de períodos da sua jornada.
-- **Análise de Sentimento:** Identifica as emoções predominantes nas suas memórias.
-- **Homenagens:** Gera tributos especiais para entes queridos.
-
-### 3. 👤 Perfil: Biografia Viva
-Visualize sua vida através de uma timeline interativa que organiza eventos históricos e memórias pessoais em uma narrativa cronológica contínua.
-
-### 4. 🔒 Privacidade Total
-Controle granular sobre quem pode ver suas memórias:
-- **Privada:** Apenas para seus olhos.
-- **Família:** Compartilhe com o círculo íntimo.
-- **Pública:** Transforme suas histórias em inspiração para outros.
-
-### 5. 📦 Caixa do Futuro
-Envie mensagens e memórias para o seu "eu" do futuro, programadas para abrir em datas específicas.
-
----
-
-## 📂 Estrutura do Projeto
-
-```
-luko-memoryos/
-├── backend/                # Servidor Node.js (Arquitetura Modular)
-│   ├── src/
-│   │   ├── auth/           # Autenticação e Sessões
-│   │   ├── users/          # Gestão de Usuários
-│   │   ├── memories/       # Core: Gestão de Memórias
-│   │   ├── ai/             # Integração com LLMs
-│   │   ├── life-events/    # Timeline e Biografia
-│   │   └── config/         # Configurações globais
-├── client/                 # Aplicação React + TypeScript
-│   ├── src/
-│   │   ├── components/     # Componentes UI reutilizáveis
-│   │   ├── pages/          # Páginas da aplicação
-│   │   ├── contexts/       # Gerenciamento de estado global
-│   │   └── hooks/          # Hooks customizados
-└── docs/                   # Documentação e Assets Visuais
+```text
+FIELD DEVICE
+     │ Connectivity OFFLINE
+     ▼
+OPERATIONAL EVENT
+     │ local storage
+     ▼
+PENDING QUEUE
+     │ Connectivity ONLINE
+     ▼
+SYNC ENGINE
+     │ validate → send → acknowledgement
+     ▼
+REX OPERATIONS
+     │ incident · telemetry · alert · history
+     ▼
+EVIDENCE CHAIN
 ```
 
----
+O objecto central é o **Operational Event**. Cada evento pode conter Event ID, tipo, descrição, equipamento, área, dispositivo, operador de demonstração, timestamp, estado de conectividade, estado de sincronização, fingerprint de integridade e histórico de evidência.
 
-## 🗺️ Roadmap de Funcionalidades Premium
+## Demonstração de dois minutos
 
-- [ ] **Memory Map 🌍:** Visualize geograficamente onde suas memórias aconteceram.
-- [ ] **Family Tree 🌳:** Árvore genealógica interativa integrada com histórias de vida.
-- [ ] **Life Book 📖:** Exporte sua jornada de vida para um livro digital em PDF com design premium.
-- [ ] **Suporte Multi-mídia:** Armazenamento seguro de áudio de alta fidelidade e vídeos 4K.
-- [ ] **App Mobile Nativo:** Versão para Android e iOS com notificações push.
+1. Abrir `/rex` e mostrar a Bomba 17 com telemetria sintética.
+2. Activar `Connectivity OFFLINE`.
+3. Registar um incidente e observar o Event ID, o estado `Pendente · local` e o contador da fila.
+4. Abrir o evento para mostrar a Evidence Chain, o dispositivo, o operador e o integrity fingerprint.
+5. Activar `Connectivity ONLINE` e clicar em `Sincronizar`.
+6. Mostrar as etapas `encontrados → validados → enviados → confirmados → 0 pendentes`.
+7. Reabrir o evento e mostrar `SYNCHRONIZED`.
 
----
+A telemetria é sintética e a sincronização é uma simulação local. O hash é descrito como **integrity fingerprint / mecanismo de detecção de alteração**, não como prova de segurança absoluta.
 
-## 🛠️ Como Configurar e Executar
+## Arquitectura v1
 
-### Pré-requisitos
-- Node.js (v18+)
-- PostgreSQL
-- OpenAI API Key (para funcionalidades de IA)
+| Camada | Implementação actual | Evolução posterior |
+|---|---|---|
+| REX Operations UI | React, TypeScript, Tailwind e Wouter | PWA de campo dedicada |
+| Telemetry Simulator | Valores sintéticos para Bomba 17, Motor 04 e Linha 02 | Ingestão de sensores autorizados |
+| Incidents Module | Registo de incidentes e estados operacionais | API e integração CMMS |
+| Connectivity State | Simulador Online/Offline | Estado real de rede e edge gateway |
+| Offline Store | `localStorage` compatível com a demo | IndexedDB ou SQLite edge |
+| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed` | Fila durável e idempotente |
+| Sync Engine | Validação, envio e acknowledgement simulados | Deduplicação, ordenação e resolução de conflitos |
+| Evidence Chain | Timestamps e fingerprint de integridade | Assinatura criptográfica e auditoria autorizada |
 
-### 1. Clonar e Instalar
+## Escopo deliberadamente limitado
+
+A versão v1 não inclui ERP, CMMS, pagamentos, utilizadores complexos, sensores reais, hardware, Firebase, IA conversacional, integração com máquinas, previsão de falhas ou múltiplos dashboards. O objectivo não é afirmar que foi construído um sistema de mineração completo; é provar uma capacidade de engenharia confiável em ambientes com conectividade intermitente.
+
+## Execução local
+
+É necessário Node.js 18 ou superior. Para iniciar:
+
 ```bash
 git clone https://github.com/fernandolukoki94-beep/luko-memoryos.git
 cd luko-memoryos
+pnpm install
+pnpm dev --host 0.0.0.0
 ```
 
-### 2. Configurar Variáveis
-Copie o arquivo `.env.example` para `.env` e preencha as suas credenciais.
+Depois, abrir `http://localhost:3000/rex`. O MVP visual não requer API paga, Firebase, sensores, PostgreSQL, Redis ou credenciais corporativas.
 
-### 3. Executar
+## Verificações
+
 ```bash
-# Backend
-cd backend
-npm install
-npm run dev
-
-# Frontend
-cd ../client
-npm install
-npm run dev
+pnpm check
+pnpm build
+python3 -m json.tool client/public/manifest.json
 ```
 
----
+As verificações actuais passam. O build emite apenas um aviso não bloqueante sobre o tamanho do bundle principal acima de 500 kB.
 
-## 🤝 Contribuição
+## Documentação
 
-Contribuições são o que tornam a comunidade open source um lugar incrível para aprender, inspirar e criar. Qualquer contribuição que você fizer será **muito apreciada**.
+| Documento | Conteúdo |
+|---|---|
+| [`docs/REX_MVP_SPEC.md`](docs/REX_MVP_SPEC.md) | Especificação funcional e arquitectura do MVP |
+| [`docs/REX_DEMO_GUIDE.md`](docs/REX_DEMO_GUIDE.md) | Roteiro da demonstração de 120 segundos |
+| [`docs/REX_AUDIT.md`](docs/REX_AUDIT.md) | Auditoria, testes, decisões e estado de publicação |
+| [`docs/research-notes.md`](docs/research-notes.md) | Evidência pública usada para enquadrar a oportunidade |
 
-## 📄 Licença
+## Evolução prevista
 
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+A evolução técnica é incremental: **v1 Offline Events**, **v2 Multi-device Synchronization**, **v3 Edge Telemetry**, **v4 Anomaly Detection** e **v5 Industrial Pilot**. Antes de procurar integrações reais, o próximo marco é tornar o teste de dez eventos offline, fecho/reabertura e sincronização `10/10` impossível de quebrar durante uma demonstração.
 
----
+## Origem do repositório
 
-**MemoryOS — Preserve sua essência.**
-*Desenvolvido por Fernando Lukoki*
+O repositório mantém componentes do produto original **Luko MemoryOS**, uma aplicação React/Vite de memórias pessoais. O módulo REX foi isolado na rota `/rex` para permitir evolução independente sem apagar o trabalho existente.
+
+## Licença
+
+Distribuído sob a licença MIT. Veja [`LICENSE`](LICENSE) para mais informações.
