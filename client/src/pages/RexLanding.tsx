@@ -31,13 +31,13 @@ export default function RexLanding() {
 
       <nav className="relative z-10 border-b border-white/10 bg-[#06111f]/75 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
-          <button type="button" onClick={() => setLocation("/")} className="flex items-center gap-3 text-left">
+          <button type="button" onClick={() => setLocation("/")} aria-label="Ir para a página inicial do REX" className="flex items-center gap-3 text-left">
             <span className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200"><Cpu className="h-5 w-5" /></span>
             <span><span className="block text-sm font-semibold tracking-[0.3em] text-cyan-200">REX</span><span className="block text-[10px] uppercase tracking-[0.2em] text-slate-500">Mine Intelligence</span></span>
           </button>
           <div className="flex items-center gap-3">
-            <button type="button" onClick={() => setLocation("/memoryos")} className="hidden text-sm text-slate-400 transition hover:text-white sm:block">MemoryOS</button>
-            <button type="button" onClick={() => setLocation("/rex")} className="inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"><span>Open Operations</span><ArrowRight className="h-4 w-4" /></button>
+            <button type="button" onClick={() => setLocation("/memoryos")} aria-label="Abrir o projecto MemoryOS" className="hidden text-sm text-slate-400 transition hover:text-white sm:block">MemoryOS</button>
+            <button type="button" onClick={() => setLocation("/rex")} aria-label="Abrir o Centro de Operações REX" className="inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"><span>Open Operations</span><ArrowRight className="h-4 w-4" /></button>
           </div>
         </div>
       </nav>
@@ -66,7 +66,7 @@ export default function RexLanding() {
       <section id="architecture" className="relative z-10 border-y border-white/10 bg-white/[0.02] px-5 py-16 lg:px-8"><div className="mx-auto max-w-7xl"><div className="max-w-2xl"><p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-200">The operating model</p><h2 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">From edge signal to inspectable decision.</h2><p className="mt-4 leading-7 text-slate-400">The first REX vertical slice is intentionally narrow: one operational event, one resilient queue and one chain of evidence that survives the loss of connectivity.</p></div><div className="mt-10 grid gap-3 md:grid-cols-4">{flow.map(({ label, detail, icon: Icon }, index) => <div key={label} className="relative rounded-2xl border border-white/10 bg-[#081727] p-5"><div className="flex items-center justify-between"><span className="grid h-10 w-10 place-items-center rounded-xl bg-cyan-300/10 text-cyan-200"><Icon className="h-5 w-5" /></span><span className="font-mono text-xs text-slate-600">0{index + 1}</span></div><h3 className="mt-6 font-semibold text-white">{label}</h3><p className="mt-1 text-sm text-slate-500">{detail}</p>{index < flow.length - 1 && <span className="absolute -right-3 top-10 z-10 hidden text-cyan-300/50 md:block"><ChevronRight className="h-5 w-5" /></span>}</div>)}</div></div></section>
 
       <section className="relative z-10 mx-auto max-w-7xl px-5 py-16 lg:px-8"><div className="rounded-3xl border border-cyan-300/15 bg-gradient-to-br from-cyan-300/[0.12] via-slate-900/60 to-amber-300/[0.08] p-8 sm:p-12"><div className="flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-200">Ready for the field</p><h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">See the complete offline-to-sync demonstration.</h2><p className="mt-4 max-w-xl leading-7 text-slate-400">Create an event without connectivity, inspect its fingerprint, restore the link and watch the Sync Engine acknowledge it.</p></div><button type="button" onClick={() => setLocation("/rex")} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3.5 font-semibold text-slate-950 transition hover:bg-cyan-100">Open REX Operations <ArrowRight className="h-4 w-4" /></button></div></div></section>
-      <footer className="relative z-10 border-t border-white/10 px-5 py-7 text-center text-xs text-slate-600 lg:px-8">REX Mine Intelligence · Operational Observability + Offline Edge + Event Intelligence</footer>
+      <footer className="relative z-10 border-t border-white/10 px-5 py-7 text-center text-xs text-slate-600 lg:px-8"><p>REX Mine Intelligence · Operational Observability + Offline Edge + Event Intelligence</p><p className="mt-2 text-slate-500">Construído por <strong className="font-medium text-slate-400">Fernando Lucoco</strong> · Kolwezi, RDC</p></footer>
     </main>
   );
 }

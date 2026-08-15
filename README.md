@@ -2,7 +2,7 @@
 
 > **Offline-first operational intelligence for connected and disconnected field environments.**
 
-O **REX Mine Intelligence** é uma prova técnica de engenharia para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
+O **REX Mine Intelligence** é uma prova técnica de engenharia criada por **Fernando Lucoco** para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
 
 O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas originais. A homepage pública REX está em `/`, o Centro de Operações está em `/rex` e a landing original MemoryOS foi preservada em `/memoryos`.
 
@@ -105,12 +105,18 @@ As verificações actuais passam. O build emite apenas um aviso não bloqueante 
 | [`docs/REX_DEMO_GUIDE.md`](docs/REX_DEMO_GUIDE.md) | Roteiro da demonstração de 120 segundos |
 | [`docs/REX_AUDIT.md`](docs/REX_AUDIT.md) | Auditoria, testes, decisões e estado de publicação |
 | [`docs/REX_WEB_VISUAL_CHECK.md`](docs/REX_WEB_VISUAL_CHECK.md) | Verificação visual da homepage permanente |
+| [`docs/REX_AND_CV_REVIEW.md`](docs/REX_AND_CV_REVIEW.md) | Auditoria técnica, avaliação do produto e revisão profissional |
+| [`docs/CV_FERNANDO_LUCOCO_DRAFT.md`](docs/CV_FERNANDO_LUCOCO_DRAFT.md) | Rascunho de CV orientado para backend e sistemas resilientes |
 | `gh-pages` branch | Artefacto estático pronto para GitHub Pages |
 | [`docs/research-notes.md`](docs/research-notes.md) | Evidência pública usada para enquadrar a oportunidade |
 
 ## Evolução prevista
 
 A evolução técnica é incremental: **v1 Offline Events**, **v2 Multi-device Synchronization**, **v3 Edge Telemetry**, **v4 Anomaly Detection** e **v5 Industrial Pilot**. Antes de procurar integrações reais, o próximo marco é tornar o teste de dez eventos offline, fecho/reabertura e sincronização `10/10` impossível de quebrar durante uma demonstração.
+
+## Autoria
+
+O REX Mine Intelligence é um projecto de **Fernando Lucoco**, desenvolvido a partir de Kolwezi, RDC, com foco em backend Python, APIs, infraestrutura e sistemas operacionais resilientes. O nome e os contactos do autor devem ser confirmados antes de qualquer publicação de CV ou comunicação social.
 
 ## Origem do repositório
 
