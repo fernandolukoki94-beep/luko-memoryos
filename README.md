@@ -16,11 +16,11 @@ O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas
 | Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/) | Link temporário; pode expirar quando a sessão terminar |
 | GitHub | [fernandolukoki94-beep/luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | Código e documentação publicados |
 | GitHub Pages | [Abrir o website REX](https://fernandolukoki94-beep.github.io/luko-memoryos/) | Branch `gh-pages`; requer activar Pages nas definições do repositório |
-| Vercel | A configurar | Deployment permanente aguarda permissões da equipa |
+| Vercel | [Abrir o website REX](https://rex-mine-intelligence-web.vercel.app/) | Deployment READY verificado com HTTP 200 |
 
 O artefacto web já está publicado na branch `gh-pages`. Para activar o URL permanente, em GitHub abra **Settings → Pages**, escolha **Deploy from a branch**, seleccione `gh-pages` e a pasta `/ (root)`, e guarde. A integração GitHub actual não possui permissão de administração de Pages para executar essa última definição via API. O URL esperado é [fernandolukoki94-beep.github.io/luko-memoryos](https://fernandolukoki94-beep.github.io/luko-memoryos/). Não é apresentado um link como activo até responder publicamente.
 
-Quando o deployment Vercel tiver permissões válidas, este README será actualizado com o URL Vercel público verificável. Não é apresentado um link fictício.
+O deployment Vercel está publicado em [rex-mine-intelligence-web.vercel.app](https://rex-mine-intelligence-web.vercel.app/). A homepage respondeu com HTTP 200 e `content-type: text/html`; o projecto Vercel é `rex-mine-intelligence-web`, com framework Vite. O URL é o acesso visual permanente principal. O preview temporário desta sessão e o GitHub Pages continuam como alternativas de demonstração.
 
 ## O fluxo v1
 
