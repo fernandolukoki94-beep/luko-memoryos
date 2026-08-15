@@ -1,5 +1,7 @@
 # REX Mine Intelligence
 
+[![Abrir projecto no Vercel](https://img.shields.io/badge/Ver%20projecto%20no%20Vercel-REX%20Mine%20Intelligence-000000?logo=vercel&logoColor=white)](https://rex-mine-intelligence-58f96axnj-fernandolukoki94-beeps-projects.vercel.app)
+
 > **Offline-first operational intelligence for connected and disconnected field environments.**
 
 O **REX Mine Intelligence** é uma prova técnica de engenharia criada por **Fernando Lucoco** para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
@@ -66,7 +68,7 @@ Verificação realizada em 15 de Agosto de 2026: **10 eventos guardados, 10 recu
 
 ### Offline Engine durável
 
-O Centro de Operações persiste os Operational Events numa store IndexedDB (`rex-mine-intelligence/operational-events`) com escrita transaccional e leitura na reabertura da aplicação. A fila continua a expor os estados `local`, `pending`, `syncing`, `synced` e `failed`; a persistência é feita tanto em IndexedDB como no fallback localStorage para que a demonstração continue funcional em navegadores com IndexedDB indisponível. O próximo incremento é adicionar retry exponencial visível e uma camada de API real para acknowledgement no servidor.
+O Centro de Operações persiste os Operational Events numa store IndexedDB (`rex-mine-intelligence/operational-events`) com escrita transaccional e leitura na reabertura da aplicação. A fila continua a expor os estados `local`, `pending`, `syncing`, `synced` e `failed`; a persistência é feita tanto em IndexedDB como no fallback localStorage para que a demonstração continue funcional em navegadores com IndexedDB indisponível. O motor de sincronização apresenta agora uma política de retry exponencial de **500 ms → 1 s → 2 s**, regista a tentativa na Evidence Chain e disponibiliza retry manual para eventos no estado `failed`. A camada de API real para acknowledgement no servidor continua como evolução posterior.
 
 ## Arquitectura v1
 
@@ -77,7 +79,8 @@ O Centro de Operações persiste os Operational Events numa store IndexedDB (`re
 | Incidents Module | Registo de incidentes e estados operacionais | API e integração CMMS |
 | Connectivity State | Simulador Online/Offline | Estado real de rede e edge gateway |
 | Offline Store | IndexedDB transaccional com fallback localStorage e validação 10/10 | SQLite edge ou armazenamento local de gateway |
-| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed`, com demo idempotente | Fila durável, retry e recuperação após falha |
+| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed`, com demo idempotente | Fila durável com conflitos multi-dispositivo |
+| Retry Policy | Backoff exponencial visível de 500ms, 1s e 2s; retry manual para `failed` | Limites, jitter e acknowledgement de servidor |
 | Sync Engine | Validação, envio e acknowledgement simulados | Deduplicação, ordenação e resolução de conflitos |
 | Evidence Chain | Timestamps e fingerprint de integridade | Assinatura criptográfica e auditoria autorizada |
 
@@ -125,7 +128,7 @@ As verificações actuais passam. O build emite apenas um aviso não bloqueante 
 
 ## Evolução prevista
 
-A evolução técnica é incremental: **v1 Offline Events**, **v2 Durable Offline Engine**, **v3 Multi-device Synchronization**, **v4 Edge Telemetry**, **v5 Anomaly Detection** e **v6 Industrial Pilot**. Os marcos de demonstração `10/10` e persistência IndexedDB já estão implementados e verificados; o próximo passo é acrescentar retry exponencial visível, acknowledgement de API e testes end-to-end.
+A evolução técnica é incremental: **v1 Offline Events**, **v2 Durable Offline Engine**, **v2.1 Retry Policy**, **v3 Multi-device Synchronization**, **v4 Edge Telemetry**, **v5 Anomaly Detection** e **v6 Industrial Pilot**. Os marcos de demonstração `10/10`, persistência IndexedDB e retry exponencial já estão implementados e verificados; o próximo passo é acrescentar acknowledgement de API, conflitos multi-dispositivo e testes end-to-end.
 
 ## Autoria
 
