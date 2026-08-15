@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { persistDurableEvents, readDurableEvents } from "../lib/rexOfflineStore";
 import {
   Activity,
   AlertTriangle,
@@ -182,7 +183,18 @@ export default function RexOperations() {
   });
 
   useEffect(() => {
+    let active = true;
+    void readDurableEvents(readIncidents()).then((durableEvents) => {
+      if (active && durableEvents.length > 0) setIncidents(durableEvents);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(incidents));
+    void persistDurableEvents(incidents);
   }, [incidents]);
 
   useEffect(() => {
