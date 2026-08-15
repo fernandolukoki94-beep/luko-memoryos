@@ -1,38 +1,21 @@
 # REX Mine Intelligence
 
-[![Abrir projecto no Vercel](https://img.shields.io/badge/Ver%20projecto%20no%20Vercel-REX%20Mine%20Intelligence-000000?logo=vercel&logoColor=white)](https://rex-mine-intelligence-58f96axnj-fernandolukoki94-beeps-projects.vercel.app)
-
 > **Offline-first operational intelligence for connected and disconnected field environments.**
 
-O **REX Mine Intelligence** é uma prova técnica de engenharia criada por **Fernando Lucoco** para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
+O **REX Mine Intelligence** é uma prova técnica de engenharia para operações industriais onde a conectividade não pode ser presumida. O MVP demonstra que um operador consegue registar um evento no campo sem Internet, guardá-lo localmente, mantê-lo numa fila pendente e sincronizá-lo quando a ligação regressa, conservando uma cadeia de evidência visível.
 
-O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas originais. A homepage pública REX está em `/`, o Centro de Operações está em `/rex` e a landing original MemoryOS foi preservada em `/memoryos`.
+O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas originais. O Centro de Operações REX está disponível em `/rex`.
 
 ## Acesso visual
 
 | Ambiente | Link | Estado |
 |---|---|---|
-| Homepage local | `http://localhost:3000/` | Landing permanente REX |
-| Centro de Operações local | `http://localhost:3000/rex` | Fluxo offline → sync |
-| MemoryOS original | `http://localhost:3000/memoryos` | Preservado sem remoção |
-| Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/) | Link temporário; pode expirar quando a sessão terminar |
+| Demonstração local | `http://localhost:3000/rex` | Disponível após iniciar o projecto |
+| Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/rex) | Link temporário; pode expirar quando a sessão terminar |
 | GitHub | [fernandolukoki94-beep/luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | Código e documentação publicados |
-| GitHub Pages | [Abrir o website REX](https://fernandolukoki94-beep.github.io/luko-memoryos/) | Branch `gh-pages`; requer activar Pages nas definições do repositório |
-| Vercel | [Abrir o website REX](https://rex-mine-intelligence-web.vercel.app/) | Deployment READY verificado com HTTP 200 |
+| Vercel | A configurar | A conta autorizada devolveu HTTP 403 ao criar o primeiro deployment |
 
-### Repositórios do portfólio
-
-O REX está organizado em duas camadas públicas e complementares. Este repositório contém a experiência visual React/Vite, o Centro de Operações e a demonstração offline-first. O repositório [rex-os-observability](https://github.com/fernandolukoki94-beep/rex-os-observability) contém o Core Python/Flask, os contratos `OperationalEvent`, o `OfflineEventEngine`, os endpoints de telemetria mineira e os testes automatizados. O backend é uma implementação local/API-first; não é apresentado como servidor industrial público nem como integração com máquinas reais.
-
-| Camada | Repositório | Responsabilidade |
-|---|---|---|
-| Frontend e demonstração visual | [luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | REX Landing, `/rex`, MemoryOS original e IndexedDB offline |
-| Core backend e contratos | [rex-os-observability](https://github.com/fernandolukoki94-beep/rex-os-observability) | Flask/Python, eventos operacionais, telemetria sintética e testes |
-| Publicação visual | [Vercel](https://rex-mine-intelligence-web.vercel.app/) | Deployment web gratuito da demonstração |
-
-O artefacto web também está publicado na branch `gh-pages`. Para activar o URL permanente, em GitHub abra **Settings → Pages**, escolha **Deploy from a branch**, seleccione `gh-pages` e a pasta `/ (root)`, e guarde. A integração GitHub actual não possui permissão de administração de Pages para executar essa última definição via API. O URL esperado é [fernandolukoki94-beep.github.io/luko-memoryos](https://fernandolukoki94-beep.github.io/luko-memoryos/).
-
-O deployment Vercel está publicado em [rex-mine-intelligence-web.vercel.app](https://rex-mine-intelligence-web.vercel.app/). A homepage respondeu com HTTP 200 e `content-type: text/html`; o projecto Vercel é `rex-mine-intelligence-web`, com framework Vite. O URL Vercel é o acesso visual permanente principal; GitHub Pages e o preview temporário continuam como alternativas de demonstração.
+Quando o deployment Vercel tiver permissões válidas, este README será actualizado com o URL público verificável. Não é apresentado um link fictício.
 
 ## O fluxo v1
 
@@ -66,19 +49,8 @@ O objecto central é o **Operational Event**. Cada evento pode conter Event ID, 
 5. Activar `Connectivity ONLINE` e clicar em `Sincronizar`.
 6. Mostrar as etapas `encontrados → validados → enviados → confirmados → 0 pendentes`.
 7. Reabrir o evento e mostrar `SYNCHRONIZED`.
-8. Para a validação 10/10, clicar em **Demo 10/10** e confirmar `10 guardados → 10 recuperados → 10 únicos → 10 sincronizados`.
 
 A telemetria é sintética e a sincronização é uma simulação local. O hash é descrito como **integrity fingerprint / mecanismo de detecção de alteração**, não como prova de segurança absoluta.
-
-### Validação Demo 10/10
-
-O Centro de Operações inclui uma validação repetível que cria dez eventos offline com Event IDs determinísticos (`REX-DEMO-10-01` a `REX-DEMO-10-10`), grava-os no armazenamento local, relê a fila para simular fecho e reabertura da aplicação, confirma que os dez IDs permanecem únicos e sincroniza-os com acknowledgement idempotente. O resultado fica guardado localmente e visível no painel, permitindo repetir a demonstração sem criar duplicações.
-
-Verificação realizada em 15 de Agosto de 2026: **10 eventos guardados, 10 recuperados, 10 IDs únicos e 10 sincronizados**. O armazenamento durável do navegador está agora implementado com IndexedDB, mantendo localStorage como fallback compatível.
-
-### Offline Engine durável
-
-O Centro de Operações persiste os Operational Events numa store IndexedDB (`rex-mine-intelligence/operational-events`) com escrita transaccional e leitura na reabertura da aplicação. A fila continua a expor os estados `local`, `pending`, `syncing`, `synced` e `failed`; a persistência é feita tanto em IndexedDB como no fallback localStorage para que a demonstração continue funcional em navegadores com IndexedDB indisponível. O motor de sincronização apresenta agora uma política de retry exponencial de **500 ms → 1 s → 2 s**, regista a tentativa na Evidence Chain e disponibiliza retry manual para eventos no estado `failed`. A camada de API real para acknowledgement no servidor continua como evolução posterior.
 
 ## Arquitectura v1
 
@@ -88,9 +60,8 @@ O Centro de Operações persiste os Operational Events numa store IndexedDB (`re
 | Telemetry Simulator | Valores sintéticos para Bomba 17, Motor 04 e Linha 02 | Ingestão de sensores autorizados |
 | Incidents Module | Registo de incidentes e estados operacionais | API e integração CMMS |
 | Connectivity State | Simulador Online/Offline | Estado real de rede e edge gateway |
-| Offline Store | IndexedDB transaccional com fallback localStorage e validação 10/10 | SQLite edge ou armazenamento local de gateway |
-| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed`, com demo idempotente | Fila durável com conflitos multi-dispositivo |
-| Retry Policy | Backoff exponencial visível de 500ms, 1s e 2s; retry manual para `failed` | Limites, jitter e acknowledgement de servidor |
+| Offline Store | `localStorage` compatível com a demo | IndexedDB ou SQLite edge |
+| Pending Queue | Eventos `pending`, `syncing`, `synced` e `failed` | Fila durável e idempotente |
 | Sync Engine | Validação, envio e acknowledgement simulados | Deduplicação, ordenação e resolução de conflitos |
 | Evidence Chain | Timestamps e fingerprint de integridade | Assinatura criptográfica e auditoria autorizada |
 
@@ -109,7 +80,7 @@ pnpm install
 pnpm dev --host 0.0.0.0
 ```
 
-Depois, abrir `http://localhost:3000/` para a homepage REX ou `http://localhost:3000/rex` para o Centro de Operações. O MVP visual não requer API paga, Firebase, sensores, PostgreSQL, Redis ou credenciais corporativas.
+Depois, abrir `http://localhost:3000/rex`. O MVP visual não requer API paga, Firebase, sensores, PostgreSQL, Redis ou credenciais corporativas.
 
 ## Verificações
 
@@ -128,21 +99,11 @@ As verificações actuais passam. O build emite apenas um aviso não bloqueante 
 | [`docs/REX_MVP_SPEC.md`](docs/REX_MVP_SPEC.md) | Especificação funcional e arquitectura do MVP |
 | [`docs/REX_DEMO_GUIDE.md`](docs/REX_DEMO_GUIDE.md) | Roteiro da demonstração de 120 segundos |
 | [`docs/REX_AUDIT.md`](docs/REX_AUDIT.md) | Auditoria, testes, decisões e estado de publicação |
-| [`docs/REX_WEB_VISUAL_CHECK.md`](docs/REX_WEB_VISUAL_CHECK.md) | Verificação visual da homepage permanente |
-| [`docs/REX_AND_CV_REVIEW.md`](docs/REX_AND_CV_REVIEW.md) | Auditoria técnica, avaliação do produto e revisão profissional |
-| [`docs/REX_10_10_VALIDATION.md`](docs/REX_10_10_VALIDATION.md) | Evidência da validação de dez eventos offline e sincronização idempotente |
-| `client/src/lib/rexOfflineStore.ts` | Store IndexedDB durável com fallback localStorage |
-| [`docs/CV_FERNANDO_LUCOCO_DRAFT.md`](docs/CV_FERNANDO_LUCOCO_DRAFT.md) | Rascunho de CV orientado para backend e sistemas resilientes |
-| `gh-pages` branch | Artefacto estático pronto para GitHub Pages |
 | [`docs/research-notes.md`](docs/research-notes.md) | Evidência pública usada para enquadrar a oportunidade |
 
 ## Evolução prevista
 
-A evolução técnica é incremental: **v1 Offline Events**, **v2 Durable Offline Engine**, **v2.1 Retry Policy**, **v3 Multi-device Synchronization**, **v4 Edge Telemetry**, **v5 Anomaly Detection** e **v6 Industrial Pilot**. Os marcos de demonstração `10/10`, persistência IndexedDB e retry exponencial já estão implementados e verificados; o próximo passo é acrescentar acknowledgement de API, conflitos multi-dispositivo e testes end-to-end.
-
-## Autoria
-
-O REX Mine Intelligence é um projecto de **Fernando Lucoco**, desenvolvido a partir de Kolwezi, RDC, com foco em backend Python, APIs, infraestrutura e sistemas operacionais resilientes. O nome e os contactos do autor devem ser confirmados antes de qualquer publicação de CV ou comunicação social.
+A evolução técnica é incremental: **v1 Offline Events**, **v2 Multi-device Synchronization**, **v3 Edge Telemetry**, **v4 Anomaly Detection** e **v5 Industrial Pilot**. Antes de procurar integrações reais, o próximo marco é tornar o teste de dez eventos offline, fecho/reabertura e sincronização `10/10` impossível de quebrar durante uma demonstração.
 
 ## Origem do repositório
 
