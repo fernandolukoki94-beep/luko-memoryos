@@ -15,9 +15,12 @@ O projecto nasceu sobre a base React/Vite do Luko MemoryOS e mantém as páginas
 | MemoryOS original | `http://localhost:3000/memoryos` | Preservado sem remoção |
 | Preview visual desta sessão | [Abrir demonstração REX](https://3000-i6xyex4j7lghvqeyw2pvg-42cb0cfd.us4.manus.computer/) | Link temporário; pode expirar quando a sessão terminar |
 | GitHub | [fernandolukoki94-beep/luko-memoryos](https://github.com/fernandolukoki94-beep/luko-memoryos) | Código e documentação publicados |
+| GitHub Pages | [Abrir o website REX](https://fernandolukoki94-beep.github.io/luko-memoryos/) | Branch `gh-pages`; requer activar Pages nas definições do repositório |
 | Vercel | A configurar | Deployment permanente aguarda permissões da equipa |
 
-Quando o deployment Vercel tiver permissões válidas, este README será actualizado com o URL público verificável. Não é apresentado um link fictício.
+O artefacto web já está publicado na branch `gh-pages`. Para activar o URL permanente, em GitHub abra **Settings → Pages**, escolha **Deploy from a branch**, seleccione `gh-pages` e a pasta `/ (root)`, e guarde. A integração GitHub actual não possui permissão de administração de Pages para executar essa última definição via API. O URL esperado é [fernandolukoki94-beep.github.io/luko-memoryos](https://fernandolukoki94-beep.github.io/luko-memoryos/). Não é apresentado um link como activo até responder publicamente.
+
+Quando o deployment Vercel tiver permissões válidas, este README será actualizado com o URL Vercel público verificável. Não é apresentado um link fictício.
 
 ## O fluxo v1
 
@@ -102,6 +105,7 @@ As verificações actuais passam. O build emite apenas um aviso não bloqueante 
 | [`docs/REX_DEMO_GUIDE.md`](docs/REX_DEMO_GUIDE.md) | Roteiro da demonstração de 120 segundos |
 | [`docs/REX_AUDIT.md`](docs/REX_AUDIT.md) | Auditoria, testes, decisões e estado de publicação |
 | [`docs/REX_WEB_VISUAL_CHECK.md`](docs/REX_WEB_VISUAL_CHECK.md) | Verificação visual da homepage permanente |
+| `gh-pages` branch | Artefacto estático pronto para GitHub Pages |
 | [`docs/research-notes.md`](docs/research-notes.md) | Evidência pública usada para enquadrar a oportunidade |
 
 ## Evolução prevista
