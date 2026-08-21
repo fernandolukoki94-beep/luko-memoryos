@@ -14,4 +14,4 @@
 - [x] Usar o retrato autorizado como atmosfera visual discreta da aplicação
 - [x] Criar um cartão de homenagem respeitoso para a fotografia memorial
 - [x] Excluir imagens íntimas ou inadequadas da apresentação pública do site
-- [ ] Validar a galeria, publicar e entregar a actualização
+- [x] Validar a galeria, publicar e entregar a actualização

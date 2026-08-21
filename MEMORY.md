@@ -12,3 +12,4 @@
 - Publicação de pré-visualização: o commit `6790c54c` foi ligado à Vercel e a URL remota carregou com título, navegação e as três áreas integradas correctas.
 - Galeria pessoal: a primeira verificação visual detectou que os assets estavam em `client/public`, directório que não era servido pela configuração Vite da raiz. As quatro fotografias seleccionadas foram movidas para `public/gallery`; a verificação seguinte deve confirmar a resolução das URLs.
 - Verificação de galeria: as quatro imagens seleccionadas passaram a carregar correctamente na página local. O retrato aparece como sombra discreta no hero; os cartões de Retrato, Momento, Família e homenagem a António renderizam sem imagens quebradas.
+- Verificação de produção: a deployment Vercel do commit `675d4102` ficou READY e apresentou o retrato de ambiente e os quatro cartões da galeria correctamente na página pública.
