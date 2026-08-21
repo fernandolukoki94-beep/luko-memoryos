@@ -9,3 +9,4 @@
 - Teste de persistência local: uma memória de teste foi guardada com sucesso, passou a aparecer como cartão privado e actualizou o contador de arquivo para uma memória.
 - Verificação visual do Arcade: o selector mostra Snake, Pong, Breakout, Orbit Invaders e Memory Flip; Snake apresenta grelha, cobra, alimento, pontuação e controlos próprios.
 - Verificação de jogo: Pong carregou como jogo separado, mostrou arena e controlos de raquete, atribuiu pontuação e guardou a melhor marca local depois do fim da ronda.
+- Publicação de pré-visualização: o commit `6790c54c` foi ligado à Vercel e a URL remota carregou com título, navegação e as três áreas integradas correctas.

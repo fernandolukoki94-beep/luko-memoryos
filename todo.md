@@ -9,4 +9,4 @@
 - [x] Criar quatro jogos retro adicionais, funcionais e acessíveis
 - [x] Guardar pontuações localmente por jogo sem recolher dados pessoais
 - [x] Testar navegação, jogos, dados locais, TypeScript e build de produção
-- [ ] Guardar versão e preparar link de experimentação
+- [x] Guardar versão e preparar link de experimentação
