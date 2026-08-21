@@ -1,39 +1,15 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import GamePage from "@/pages/GamePage";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import { AuthProvider } from "./contexts/AuthContext";
-import { MemoriesProvider } from "./contexts/MemoriesContext";
-import Home from "./pages/Home";
-import LandingPage from "./pages/LandingPage";
-import Auth from "./pages/Auth";
-import Profile from "./pages/Profile";
-import ProfileTimeline from "./pages/ProfileTimeline";
-import Feed from "./pages/Feed";
-import Vault from "./pages/Vault";
-import Chat from "./pages/Chat";
+import IntegratedHome from "./pages/IntegratedHome";
 import RexOperations from "./pages/RexOperations";
 
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={LandingPage} />
-      <Route path={"/home"} component={Home} />
-      <Route path={"/game"} component={GamePage} />
-      <Route path={"/auth"} component={Auth} />
-      <Route path={"/profile/:id"} component={Profile} />
-      <Route path={"/timeline/:id"} component={ProfileTimeline} />
-      <Route path={"/feed"} component={Feed} />
-      <Route path={"/vault"} component={Vault} />
-      <Route path={"/chat"} component={Chat} />
+      <Route path={"/"} component={IntegratedHome} />
       <Route path={"/rex"} component={RexOperations} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
+      <Route component={IntegratedHome} />
     </Switch>
   );
 }
@@ -46,19 +22,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <MemoriesProvider>
-          <ThemeProvider
-            defaultTheme="light"
-            // switchable
-          >
-            <TooltipProvider>
-              <Toaster />
-              <Router />
-            </TooltipProvider>
-          </ThemeProvider>
-        </MemoriesProvider>
-      </AuthProvider>
+      <Router />
     </ErrorBoundary>
   );
 }
