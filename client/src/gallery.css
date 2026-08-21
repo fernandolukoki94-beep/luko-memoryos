@@ -1,0 +1,22 @@
+.hero-console { isolation: isolate; }
+.hero-portrait-image { position: absolute; z-index: -1; width: min(400px, 86%); height: 100%; object-fit: cover; object-position: 50% 14%; opacity: .21; filter: grayscale(1) contrast(1.08); mask-image: radial-gradient(ellipse 52% 62% at 52% 42%, black 25%, transparent 76%); }
+.gallery-shell { padding-top: 0; }
+.gallery-grid { display: grid; grid-template-columns: 1.08fr .94fr .83fr 1.08fr; gap: 11px; }
+.gallery-frame, .tribute-frame { position: relative; min-height: 340px; margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: #171b25; }
+.gallery-frame img, .tribute-frame img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; transition: transform .4s ease, filter .4s ease; }
+.gallery-frame:hover img, .tribute-frame:hover img { transform: scale(1.045); filter: brightness(1.08); }
+.frame-1 { min-height: 460px; }
+.frame-1 img { object-position: 50% 13%; }
+.frame-2 img { object-position: 50% center; }
+.frame-3 img { object-position: 50% 26%; }
+.tribute-frame img { object-position: center; }
+.gallery-frame::after, .tribute-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6,8,13,.9), transparent 55%); }
+.gallery-frame figcaption, .tribute-frame figcaption { position: absolute; z-index: 1; bottom: 0; padding: 16px; display: grid; gap: 3px; }
+.gallery-frame figcaption span, .tribute-frame figcaption span { font-size: 14px; font-weight: 750; }
+.gallery-frame figcaption small, .tribute-frame figcaption small { font-size: 10px; color: #cad1df; }
+.tribute-frame figcaption { color: #efd09a; }
+.tribute-frame figcaption svg { color: #e8bd72; }
+.gallery-privacy { display: flex; align-items: flex-start; gap: 8px; margin: 17px 0 0; color: #8f99ad; font-size: 11px; line-height: 1.5; }
+.gallery-privacy svg { color: var(--amber); flex: none; margin-top: 1px; }
+@media (max-width: 850px) { .gallery-grid { grid-template-columns: 1fr 1fr; } .gallery-frame, .tribute-frame { min-height: 310px; } .frame-1 { min-height: 390px; } }
+@media (max-width: 560px) { .gallery-grid { grid-template-columns: 1fr; } .gallery-frame, .tribute-frame, .frame-1 { min-height: 340px; } }

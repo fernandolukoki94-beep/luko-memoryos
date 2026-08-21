@@ -10,3 +10,8 @@
 - [x] Guardar pontuações localmente por jogo sem recolher dados pessoais
 - [x] Testar navegação, jogos, dados locais, TypeScript e build de produção
 - [x] Guardar versão e preparar link de experimentação
+- [x] Adicionar uma galeria pessoal com as fotografias não explícitas fornecidas
+- [x] Usar o retrato autorizado como atmosfera visual discreta da aplicação
+- [x] Criar um cartão de homenagem respeitoso para a fotografia memorial
+- [x] Excluir imagens íntimas ou inadequadas da apresentação pública do site
+- [ ] Validar a galeria, publicar e entregar a actualização
