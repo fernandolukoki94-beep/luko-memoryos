@@ -1,0 +1,12 @@
+{
+  "name": "CYBERHUB — Play Connect Level Up",
+  "short_name": "CYBERHUB",
+  "description": "Ton espace gaming, communauté et cybercafé.",
+  "lang": "fr",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f14",
+  "theme_color": "#d5fa68",
+  "orientation": "portrait-primary",
+  "icons": []
+}

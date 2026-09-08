@@ -1,4 +1,4 @@
-const CACHE = "cyberhub-v2";
+const CACHE = "cyberhub-v1";
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", (event) => {
