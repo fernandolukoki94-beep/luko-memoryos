@@ -1,241 +1,33 @@
-import { useAuth } from "@/contexts/AuthContext";
-import { useMemories } from "@/contexts/MemoriesContext";
-import { Button } from "@/components/ui/button";
-import { useLocation } from "wouter";
-import { useState } from "react";
-import { 
-  Archive, 
-  Sparkles, 
-  Clock, 
-  Lock, 
-  Plus, 
-  Search, 
-  Settings,
-  LayoutDashboard,
-  Heart,
-  ShieldCheck,
-  X,
-  Image as ImageIcon
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "sonner";
+import { useMemo, useState } from "react";
+import { Activity, ArrowUpRight, CalendarDays, Check, ChevronRight, Clock3, Flame, Gamepad2, Heart, MessageCircle, MoreHorizontal, Play, Plus, Radio, Send, Server, ShieldCheck, Swords, Trophy, Users, Wifi, X, Zap } from "lucide-react";
+import type { Section } from "../App";
 
-export default function Home() {
-  const { userProfile, logout } = useAuth();
-  const { memories, addMemory } = useMemories();
-  const [, setLocation] = useLocation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+type Props = { section: Section; onSectionChange: (section: Section) => void };
+type Post = { id: number; initials: string; name: string; handle: string; time: string; body: string; likes: number; comments: number; liked?: boolean; accent: string };
+const initialPosts: Post[] = [
+  { id: 1, initials: "SM", name: "Sofia Mendes", handle: "@sofia.exe", time: "12 min", body: "Enfin passé Diamant sur Valorant ! La session de ce soir au PC-07 était vraiment intense. 🔥", likes: 42, comments: 8, accent: "avatar-b" },
+  { id: 2, initials: "TK", name: "Thomas K.", handle: "@tk_playz", time: "1 h", body: "Qui pour un tournoi express de Rocket League à 20h ? On lance les inscriptions dans le salon #events.", likes: 27, comments: 13, accent: "avatar-c" },
+];
+const games = [{ name: "Neon Drift", genre: "Course · Arcade", color: "game-cyan", score: "12 840", icon: "✦" }, { name: "Valorant", genre: "FPS · Compétitif", color: "game-red", score: "Diamant II", icon: "◈" }, { name: "Rocket League", genre: "Sport · Multi", color: "game-orange", score: "Champion", icon: "◎" }];
+const ranks = [{ name: "Sofia Mendes", handle: "@sofia.exe", xp: "24 860 XP", avatar: "SM", color: "avatar-b" }, { name: "Lucas Martin", handle: "@lucas_m", xp: "22 410 XP", avatar: "LM", color: "avatar-a" }, { name: "Yanis B.", handle: "@yanis_b", xp: "20 180 XP", avatar: "YB", color: "avatar-d" }, { name: "Emma R.", handle: "@emmar", xp: "18 920 XP", avatar: "ER", color: "avatar-e" }];
+const computers = Array.from({ length: 12 }, (_, i) => ({ id: i + 1, state: i === 1 || i === 5 || i === 8 ? "occupied" : i === 10 ? "maintenance" : "available", user: i === 1 ? "Yanis B." : i === 5 ? "Emma R." : i === 8 ? "Nicolas P." : "" }));
 
-  // Form State
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
+function Avatar({ initials, color = "avatar-a" }: { initials: string; color?: string }) { return <div className={`avatar ${color}`}>{initials}</div>; }
+function SectionHeading({ eyebrow, title, action }: { eyebrow: string; title: string; action?: string }) { return <div className="section-heading"><div><div className="eyebrow">{eyebrow}</div><h2>{title}</h2></div>{action && <button className="text-button">{action}<ChevronRight size={15} /></button>}</div>; }
+function ProgressBar({ value, color = "lime" }: { value: number; color?: string }) { return <div className="progress-track"><div className={`progress-fill ${color}`} style={{ width: `${value}%` }} /></div>; }
 
-  const handleLogout = async () => {
-    await logout();
-    setLocation("/");
-  };
+export default function Home({ section, onSectionChange }: Props) {
+  const [posts, setPosts] = useState(initialPosts); const [newPost, setNewPost] = useState(""); const [activeGame, setActiveGame] = useState<string | null>(null); const [booked, setBooked] = useState<number | null>(null); const [tab, setTab] = useState("Cette semaine");
+  const online = useMemo(() => computers.filter((pc) => pc.state === "available").length, []);
+  const toggleLike = (id: number) => setPosts((items) => items.map((post) => post.id === id ? { ...post, liked: !post.liked, likes: post.likes + (post.liked ? -1 : 1) } : post));
+  const publish = () => { if (!newPost.trim()) return; setPosts([{ id: Date.now(), initials: "LM", name: "Lucas Martin", handle: "@lucas_m", time: "à l'instant", body: newPost.trim(), likes: 0, comments: 0, accent: "avatar-a" }, ...posts]); setNewPost(""); };
 
-  const handleCreateMemory = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim() || !description.trim()) {
-      toast.error("Por favor, preencha o título e a descrição.");
-      return;
-    }
-
-    addMemory({
-      title,
-      description,
-      isPrivate,
-      date: new Date().toLocaleDateString("pt-PT"),
-      category: "Geral",
-      imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663550783227/WhiKSnB8XZrFxSQpnnwhMw/luko-feed-pattern-UJy82QBihxRYcN9JajTs7e.webp"
-    });
-
-    toast.success("Memória guardada com sucesso! ✨");
-    setIsModalOpen(false);
-    setTitle("");
-    setDescription("");
-  };
-
-  const stats = [
-    { label: "Memórias", value: memories.length.toString(), icon: <Archive className="w-5 h-5" />, color: "text-blue-500" },
-    { label: "Segurança", value: "Alta", icon: <ShieldCheck className="w-5 h-5" />, color: "text-green-500" },
-    { label: "Seguidores", value: userProfile?.followers || 0, icon: <Heart className="w-5 h-5" />, color: "text-pink-500" },
-  ];
-
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
-      {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-white border-r border-slate-200 p-6 flex flex-col gap-8">
-        <div className="flex items-center gap-2">
-          <Archive className="w-8 h-8 text-purple-600" />
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            MemoryOS
-          </span>
-        </div>
-
-        <nav className="flex flex-col gap-2 flex-1">
-          <Button variant="ghost" className="justify-start gap-3 bg-slate-100 text-purple-700 font-semibold">
-            <LayoutDashboard className="w-5 h-5" /> Dashboard
-          </Button>
-          <Button variant="ghost" className="justify-start gap-3 text-slate-600 hover:text-purple-600" onClick={() => setLocation("/feed")}>
-            <Sparkles className="w-5 h-5" /> Feed Global
-          </Button>
-          <Button variant="ghost" className="justify-start gap-3 text-slate-600 hover:text-purple-600" onClick={() => setLocation(`/timeline/${userProfile?.uid}`)}>
-            <Clock className="w-5 h-5" /> Minha Timeline
-          </Button>
-          <Button variant="ghost" className="justify-start gap-3 text-slate-600 hover:text-purple-600" onClick={() => setLocation("/vault")}>
-            <Lock className="w-5 h-5" /> Cofre Privado
-          </Button>
-        </nav>
-
-        <div className="pt-6 border-t border-slate-100">
-          <Button variant="ghost" className="w-full justify-start gap-3 text-slate-500" onClick={() => setLocation("/profile/me")}>
-            <Settings className="w-5 h-5" /> Definições
-          </Button>
-          <Button variant="ghost" className="w-full justify-start gap-3 text-red-500 hover:bg-red-50 hover:text-red-600 mt-2" onClick={handleLogout}>
-            Sair da Conta
-          </Button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 overflow-y-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">
-              Olá, {userProfile?.displayName || "Explorador"}! 👋
-            </h1>
-            <p className="text-slate-500 mt-1">Bem-vindo de volta ao seu cofre de memórias.</p>
-          </div>
-          <div className="flex gap-3 w-full md:w-auto">
-            <Button 
-              onClick={() => setIsModalOpen(true)}
-              className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl px-6 w-full md:w-auto"
-            >
-              <Plus className="w-5 h-5 mr-2" /> Nova Memória
-            </Button>
-          </div>
-        </header>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-              <div className={`p-3 rounded-xl bg-slate-50 ${stat.color}`}>{stat.icon}</div>
-              <div>
-                <p className="text-sm text-slate-500 font-medium">{stat.label}</p>
-                <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Memories List */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <section className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-            <h3 className="text-xl font-bold text-slate-900 mb-6">Memórias Recentes</h3>
-            <div className="space-y-4">
-              {memories.length === 0 ? (
-                <div className="text-center py-10">
-                  <Archive className="w-12 h-12 text-slate-200 mx-auto mb-3" />
-                  <p className="text-slate-400">Ainda não guardaste memórias.</p>
-                </div>
-              ) : (
-                memories.map((memory) => (
-                  <div key={memory.id} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer group">
-                    <div className="w-16 h-16 rounded-xl bg-purple-100 flex-shrink-0 overflow-hidden">
-                      <img src={memory.imageUrl} alt="" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-slate-800 group-hover:text-purple-600 transition-colors">{memory.title}</h4>
-                        {memory.isPrivate && <Lock className="w-3 h-3 text-slate-400" />}
-                      </div>
-                      <p className="text-sm text-slate-500 line-clamp-1">{memory.description}</p>
-                    </div>
-                    <span className="text-xs text-slate-400">{memory.date}</span>
-                  </div>
-                ))
-              )}
-            </div>
-          </section>
-
-          {/* AI Assistant */}
-          <section className="bg-gradient-to-br from-purple-600 to-indigo-700 p-8 rounded-3xl text-white shadow-lg relative overflow-hidden">
-            <div className="relative z-10">
-              <Sparkles className="w-10 h-10 text-white/50 mb-6" />
-              <h3 className="text-2xl font-bold mb-4">Memory AI Assistente</h3>
-              <p className="text-purple-100 mb-8">
-                {memories.length > 0 
-                  ? `Tens ${memories.length} memórias guardadas. Queres que eu crie uma história sobre elas?`
-                  : "Começa a guardar memórias para que eu possa ajudar-te a contar a tua história."}
-              </p>
-              <Button 
-                onClick={() => setLocation("/chat")}
-                className="bg-white text-purple-700 hover:bg-purple-50 rounded-xl font-bold w-full py-6"
-              >
-                Conversar com IA
-              </Button>
-            </div>
-          </section>
-        </div>
-      </main>
-
-      {/* Modal Nova Memória */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-              onClick={() => setIsModalOpen(false)}
-            />
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-              className="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden"
-            >
-              <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-                <h2 className="text-xl font-bold text-slate-900">Nova Memória</h2>
-                <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                  <X className="w-5 h-5 text-slate-500" />
-                </button>
-              </div>
-              <form onSubmit={handleCreateMemory} className="p-6 space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">Título</label>
-                  <input 
-                    value={title} onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 outline-none"
-                    placeholder="Ex: Viagem à praia"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">O que aconteceu?</label>
-                  <textarea 
-                    value={description} onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500/20 outline-none h-32 resize-none"
-                    placeholder="Descreve este momento..."
-                  />
-                </div>
-                <div className="flex items-center gap-2 py-2">
-                  <input 
-                    type="checkbox" checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)}
-                    id="private" className="w-4 h-4 text-purple-600 rounded"
-                  />
-                  <label htmlFor="private" className="text-sm text-slate-600 flex items-center gap-1 cursor-pointer">
-                    <Lock className="w-3 h-3" /> Guardar no Cofre Privado
-                  </label>
-                </div>
-                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 rounded-xl font-bold">
-                  Guardar Memória
-                </Button>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+  if (section === "games") return <div className="page-wrap"><PageIntro eyebrow="ARCADE" title="Jeux & défis" copy="Choisis ton terrain de jeu et fais grimper ton score." /><div className="game-grid large">{games.concat([{ name: "Cyber Reflex", genre: "Réflexes · Solo", color: "game-purple", score: "1 284 pts", icon: "⌁" }]).map((game) => <div className={`game-card ${game.color}`} key={game.name}><div className="game-art"><span>{game.icon}</span><button className="play-button" onClick={() => setActiveGame(game.name)}><Play size={17} fill="currentColor" /></button></div><div className="game-meta"><div><h3>{game.name}</h3><span>{game.genre}</span></div><strong>{game.score}</strong></div><button className="outline-button" onClick={() => setActiveGame(game.name)}>Lancer le jeu <ArrowUpRight size={15} /></button></div>)}</div>{activeGame && <Modal title={activeGame} onClose={() => setActiveGame(null)}><div className="mini-game"><div className="game-orb"><Zap size={32} /></div><h3>Prêt à battre ton record ?</h3><p>Le mode démo est prêt. Ta prochaine partie sera enregistrée dans ton historique.</p><button className="primary-button" onClick={() => setActiveGame(null)}>Commencer la partie <Play size={16} fill="currentColor" /></button></div></Modal>}</div>;
+  if (section === "leaderboard") return <div className="page-wrap"><PageIntro eyebrow="COMPÉTITION" title="Classement" copy="Les meilleurs joueurs de la communauté, en temps réel." /><div className="leaderboard-shell"><div className="leader-tabs">{["Aujourd’hui", "Cette semaine", "Ce mois", "Général"].map((item) => <button className={tab === item ? "selected" : ""} key={item} onClick={() => setTab(item)}>{item}</button>)}</div><div className="podium"><div className="podium-card second"><span className="podium-rank">02</span><Avatar initials="LM" /><strong>Lucas Martin</strong><small>22 410 XP</small></div><div className="podium-card first"><div className="crown">♛</div><span className="podium-rank">01</span><Avatar initials="SM" color="avatar-b" /><strong>Sofia Mendes</strong><small>24 860 XP</small></div><div className="podium-card third"><span className="podium-rank">03</span><Avatar initials="YB" color="avatar-d" /><strong>Yanis B.</strong><small>20 180 XP</small></div></div><div className="rank-list">{ranks.map((rank, i) => <div className="rank-row" key={rank.handle}><span className="rank-number">{String(i + 1).padStart(2, "0")}</span><Avatar initials={rank.avatar} color={rank.color} /><div className="rank-info"><strong>{rank.name}</strong><span>{rank.handle}</span></div><div className="rank-bar"><ProgressBar value={94 - i * 15} color={i === 0 ? "cyan" : "lime"} /></div><strong className="rank-xp">{rank.xp}</strong><span className="rank-change">{i === 0 ? "▲ 12%" : "▲ 4%"}</span></div>)}</div></div></div>;
+  if (section === "cafe") return <div className="page-wrap"><PageIntro eyebrow="ESPACE PHYSIQUE" title="Cybercafé" copy="Visualise les postes et réserve ta prochaine session." /><div className="cafe-summary"><div><span>POSTES DISPONIBLES</span><strong>{booked ? online - 1 : online}<small>/ 12</small></strong></div><div><span>SESSIONS EN COURS</span><strong>3</strong></div><div><span>PROCHAINE RÉSERVATION</span><strong>18:30</strong></div><button className="primary-button"><CalendarDays size={16} /> Mes réservations</button></div><div className="pc-grid">{computers.map((pc) => <button key={pc.id} className={`pc-card ${pc.state} ${booked === pc.id ? "booked" : ""}`} onClick={() => pc.state === "available" && setBooked(pc.id)}><div className="pc-top"><span>PC-{String(pc.id).padStart(2, "0")}</span><span className="pc-led" /></div><div className="monitor"><div className="monitor-screen">{pc.state === "occupied" ? <Activity size={18} /> : pc.state === "maintenance" ? <ShieldCheck size={18} /> : <Wifi size={18} />}</div></div><strong>{booked === pc.id ? "Réservé pour vous" : pc.state === "occupied" ? pc.user : pc.state === "maintenance" ? "Maintenance" : "Disponible"}</strong><small>{pc.state === "available" ? "Cliquer pour réserver" : pc.state === "occupied" ? "Session en cours" : "Indisponible"}</small></button>)}</div></div>;
+  return <div className="page-wrap"><section className="welcome-row"><div><div className="eyebrow">MARDI 08 SEPTEMBRE 2026 <span className="live-pill"><span /> LIVE</span></div><h1>Bon retour, Lucas <span className="wave">✦</span></h1><p>Prêt à passer au niveau supérieur ? Voici ce qui se passe dans ton hub.</p></div><button className="primary-button" onClick={() => onSectionChange("cafe")}><Plus size={17} /> Réserver un PC</button></section><div className="stats-grid"><Stat icon={<Trophy size={18} />} label="Score total" value="22 410" detail="+12% cette semaine" accent="cyan" /><Stat icon={<Zap size={18} />} label="Niveau actuel" value="18" detail="2 590 XP avant le niveau 19" accent="lime" progress={72} /><Stat icon={<Clock3 size={18} />} label="Temps de jeu" value="38h 24m" detail="+4h 12m ce mois" accent="purple" /><Stat icon={<Flame size={18} />} label="Série actuelle" value="7 jours" detail="Record personnel : 14 jours" accent="orange" /></div><div className="content-grid"><div className="feed-column"><SectionHeading eyebrow="ACTIVITÉ RÉCENTE" title="Dans la communauté" action="Voir tout" /><div className="composer"><Avatar initials="LM" /><div className="composer-main"><textarea value={newPost} onChange={(e) => setNewPost(e.target.value)} placeholder="Partage une victoire, une astuce ou un moment..." /><div className="composer-footer"><div className="composer-tools"><button><Gamepad2 size={16} /> Jeu</button><button><Radio size={16} /> Live</button></div><button className="primary-button compact" onClick={publish} disabled={!newPost.trim()}>Publier <Send size={14} /></button></div></div></div>{posts.map((post) => <article className="post-card" key={post.id}><div className="post-head"><Avatar initials={post.initials} color={post.accent} /><div className="post-author"><strong>{post.name}</strong><span>{post.handle} · {post.time}</span></div><button className="icon-button subtle"><MoreHorizontal size={18} /></button></div><p>{post.body}</p><div className="post-actions"><button className={post.liked ? "liked" : ""} onClick={() => toggleLike(post.id)}><Heart size={17} fill={post.liked ? "currentColor" : "none"} /> {post.likes}</button><button><MessageCircle size={17} /> {post.comments}</button><button className="share"><Send size={16} /> Partager</button></div></article>)}<button className="load-more">Charger plus d'activité <ChevronRight size={15} /></button></div><aside className="right-column"><section className="side-card level-card"><div className="side-card-title"><span>TA PROGRESSION</span><button className="icon-button subtle"><MoreHorizontal size={17} /></button></div><div className="level-line"><div className="level-badge">18</div><div><strong>Rang Éclaireur</strong><span>2 590 XP restants</span></div><span className="level-percent">72%</span></div><ProgressBar value={72} color="lime" /><div className="level-foot"><span>Niveau 18</span><span>Niveau 19</span></div></section><section className="side-card"><SectionHeading eyebrow="TES JEUX" title="Récemment joués" action="Tout voir" />{games.map((game) => <div className="recent-game" key={game.name}><div className={`game-thumb ${game.color}`}>{game.icon}</div><div><strong>{game.name}</strong><span>{game.score} <i>·</i> Il y a 2h</span></div><ChevronRight size={16} className="muted" /></div>)}</section><section className="side-card mini-rank"><SectionHeading eyebrow="TOP JOUEURS" title="Cette semaine" action="Classement" />{ranks.slice(0, 3).map((rank, i) => <div className="mini-rank-row" key={rank.handle}><span className="mini-place">{i + 1}</span><Avatar initials={rank.avatar} color={rank.color} /><div><strong>{rank.name}</strong><span>{rank.xp}</span></div><span className="trend">▲</span></div>)}</section><section className="side-card server-card"><div className="server-icon"><Server size={18} /></div><div><strong>Serveur Cybercafé</strong><span><span className="status-pulse" /> {online} postes disponibles</span></div><button className="icon-button subtle" onClick={() => onSectionChange("cafe")}><ArrowUpRight size={17} /></button></section></aside></div></div>;
 }
+
+function Stat({ icon, label, value, detail, accent, progress }: { icon: React.ReactNode; label: string; value: string; detail: string; accent: string; progress?: number }) { return <div className={`stat-card ${accent}`}><div className="stat-icon">{icon}</div><span className="stat-label">{label}</span><strong className="stat-value">{value}</strong>{progress ? <ProgressBar value={progress} color={accent === "cyan" ? "cyan" : "lime"} /> : null}<span className="stat-detail">{detail}</span></div>; }
+function PageIntro({ eyebrow, title, copy }: { eyebrow: string; title: string; copy: string }) { return <div className="page-intro"><div><div className="eyebrow">{eyebrow}</div><h1>{title}</h1><p>{copy}</p></div><div className="intro-decoration"><Swords size={34} /><span>01</span></div></div>; }
+function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) { return <div className="modal-backdrop" onClick={onClose}><div className="modal-card" onClick={(e) => e.stopPropagation()}><div className="modal-head"><strong>{title}</strong><button className="icon-button subtle" onClick={onClose}><X size={18} /></button></div>{children}</div></div>; }
