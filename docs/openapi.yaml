@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: CYBERHUB API
+  version: 0.1.0
+  description: API REST du réseau social, gaming et cybercafé.
+servers:
+  - url: /api
+paths:
+  /health:
+    get:
+      summary: Vérifier la disponibilité du service
+      responses: { '200': { description: Service disponible } }
+  /auth/register:
+    post:
+      summary: Créer un compte et ouvrir une session
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Register' } } } }
+      responses: { '201': { description: Compte créé }, '400': { description: Données invalides }, '409': { description: Email déjà utilisé } }
+  /auth/login:
+    post:
+      summary: Ouvrir une session
+      responses: { '200': { description: Session créée }, '401': { description: Identifiants invalides } }
+  /auth/me:
+    get:
+      summary: Retourner l'utilisateur connecté
+      responses: { '200': { description: Utilisateur courant }, '401': { description: Non authentifié } }
+  /posts:
+    get: { summary: Lister le fil d'actualité, responses: { '200': { description: Publications } } }
+    post: { summary: Créer une publication, responses: { '201': { description: Publication créée }, '401': { description: Non authentifié } } }
+  /reservations:
+    get: { summary: Lister les postes, responses: { '200': { description: Postes du cybercafé } } }
+    post: { summary: Réserver un poste, responses: { '201': { description: Réservation créée }, '409': { description: Conflit de période } } }
+components:
+  schemas:
+    Register:
+      type: object
+      required: [username, email, password, firstName, lastName]
+      properties:
+        username: { type: string, minLength: 3 }
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8 }
+        firstName: { type: string }
+        lastName: { type: string }
